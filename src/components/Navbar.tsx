@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const logoSrc = `${import.meta.env.BASE_URL}fyze.svg`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +28,7 @@ export function Navbar() {
           <div className="flex-shrink-0">
             <a href="#" className="flex items-center gap-2 group">
               <img
-                src="/fyze.svg"
+                src={logoSrc}
                 alt="Fyze"
                 className="h-12 sm:h-14 w-auto transition-opacity group-hover:opacity-80"
               />

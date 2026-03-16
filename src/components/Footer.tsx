@@ -1,6 +1,8 @@
 import { Instagram, Linkedin, Facebook } from "lucide-react";
 
 export function Footer() {
+  const logoSrc = `${import.meta.env.BASE_URL}fyze.svg`;
+
   return (
     <footer className="bg-zinc-950 border-t border-white/5 pt-20 sm:pt-24 pb-10">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,7 +10,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <a href="#" className="inline-block mb-6 sm:mb-8 group">
               <img
-                src="/fyze.svg"
+                src={logoSrc}
                 alt="Fyze"
                 className="h-12 sm:h-14 w-auto transition-opacity group-hover:opacity-80"
               />
