@@ -1,24 +1,24 @@
 import { Instagram, Linkedin, Facebook } from "lucide-react";
 
 export function Footer() {
-  const logoSrc = `${import.meta.env.BASE_URL}fyze.svg`;
+  const markSrc = `${import.meta.env.BASE_URL}y-fyze.svg`;
 
   return (
     <footer className="bg-zinc-950 border-t border-white/5 pt-20 sm:pt-24 pb-10">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 sm:gap-12 mb-12 sm:mb-16">
           <div className="col-span-1 md:col-span-2">
-            <a href="#" className="inline-block mb-6 sm:mb-8 group">
+            <div className="flex items-start gap-4 sm:gap-5">
               <img
-                src={logoSrc}
+                src={markSrc}
                 alt="Fyze"
-                className="h-12 sm:h-14 w-auto transition-opacity group-hover:opacity-80"
+                className="h-20 sm:h-24 w-auto shrink-0"
               />
-            </a>
-            <p className="text-zinc-400 max-w-md leading-relaxed text-base sm:text-lg font-medium">
-              Agência de Marketing Digital em Portugal.
-              Transformamos ideias em resultados através de estratégias digitais inovadoras.
-            </p>
+              <p className="text-zinc-400 max-w-md leading-relaxed text-base sm:text-lg font-medium pt-1">
+                Agência de Marketing Digital em Portugal.
+                Transformamos ideias em resultados através de estratégias digitais inovadoras.
+              </p>
+            </div>
           </div>
 
           <div>
