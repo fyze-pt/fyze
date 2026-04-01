@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
@@ -6,6 +6,14 @@ export function Hero() {
   const modelSrc = `${import.meta.env.BASE_URL}y fyze 3d.glb`;
   const modelRef = useRef<HTMLElement>(null);
   const spinBoostRef = useRef(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     let currentRotation = 90;
@@ -143,7 +151,7 @@ export function Hero() {
             ref={modelRef}
             src={modelSrc}
             alt="Fyze Logo 3D"
-            camera-controls
+            {...(isDesktop ? { "camera-controls": true } : {})}
             disable-zoom
             disable-pan
             camera-orbit="90deg 75deg auto"
@@ -156,7 +164,6 @@ export function Hero() {
               backgroundColor: "transparent",
               outline: "none",
               border: "none",
-              touchAction: "pan-y",
               filter: "sepia(1) hue-rotate(130deg) saturate(3) brightness(1.1)",
             }}
             className="h-[40svh] sm:h-[450px] lg:h-[650px]"
