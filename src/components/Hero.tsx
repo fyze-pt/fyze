@@ -23,11 +23,11 @@ export function Hero() {
       spinBoostRef.current *= 0.97;
       currentRotation += (targetRotation - currentRotation) * 0.08 + spinBoostRef.current;
       lightAngle += 0.02;
-      idleAngle += 0.008;
+      idleAngle += 0.012;
 
       const exposure = 1.3 + Math.sin(lightAngle) * 0.5;
-      const idleTheta = Math.sin(idleAngle) * 3;
-      const idlePhi = Math.cos(idleAngle * 0.7) * 2;
+      const idleTheta = Math.sin(idleAngle) * 6;
+      const idlePhi = Math.cos(idleAngle * 0.7) * 4;
 
       const el = modelRef.current;
       if (el) {
@@ -143,6 +143,7 @@ export function Hero() {
             ref={modelRef}
             src={modelSrc}
             alt="Fyze Logo 3D"
+            camera-controls
             disable-zoom
             disable-pan
             camera-orbit="90deg 75deg auto"
@@ -155,6 +156,7 @@ export function Hero() {
               backgroundColor: "transparent",
               outline: "none",
               border: "none",
+              touchAction: "pan-y",
               filter: "sepia(1) hue-rotate(130deg) saturate(3) brightness(1.1)",
             }}
             className="h-[40svh] sm:h-[450px] lg:h-[650px]"
