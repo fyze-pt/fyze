@@ -1,4 +1,4 @@
-import { Instagram, Linkedin, Facebook } from "lucide-react";
+import { Instagram, Linkedin, Facebook, Phone } from "lucide-react";
 
 export function Footer() {
   const markSrc = `${import.meta.env.BASE_URL}y-fyze.svg`;
@@ -31,6 +31,11 @@ export function Footer() {
           </div>
 
           <div>
+            <h4 className="font-black uppercase tracking-widest mb-5 sm:mb-8 text-sm text-white">Contacto</h4>
+            <a href="https://wa.me/351915709951" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-zinc-400 hover:text-fyze transition-colors font-bold text-sm mb-6">
+              <Phone size={18} />
+              +351 915 709 951
+            </a>
             <h4 className="font-black uppercase tracking-widest mb-5 sm:mb-8 text-sm text-white">Redes Sociais</h4>
             <div className="flex gap-4">
               <a href="#" className="w-12 h-12 rounded-2xl bg-zinc-900 border border-white/5 flex items-center justify-center text-zinc-400 hover:bg-fyze hover:text-zinc-950 hover:border-fyze transition-all duration-300">

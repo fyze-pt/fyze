@@ -8,20 +8,22 @@ import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { WhatsAppButton } from "./components/WhatsAppButton";
+import { FloatingModel } from "./components/FloatingModel";
 
 export default function App() {
   return (
     <main className="bg-zinc-950 min-h-screen">
       <Navbar />
       <Hero />
+      <Services />
       <Clients />
       <RiskFreeOffer />
-      <Services />
       <Showcase />
       <About />
       <Contact />
       <Footer />
       <WhatsAppButton />
+      <FloatingModel />
     </main>
   );
 }

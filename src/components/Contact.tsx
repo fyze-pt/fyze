@@ -55,7 +55,7 @@ export function Contact() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">Ligue-nos</p>
-                  <a href="tel:+351900000000" className="text-xl sm:text-3xl font-black hover:text-fyze transition-colors break-words">+351 900 000 000</a>
+                  <a href="tel:+351915709951" className="text-xl sm:text-3xl font-black hover:text-fyze transition-colors break-words">+351 915 709 951</a>
                 </div>
               </div>
 

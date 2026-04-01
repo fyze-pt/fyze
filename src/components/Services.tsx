@@ -1,11 +1,12 @@
 import { motion } from "motion/react";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 
 const services = [
   {
     title: "Websites & Sistemas",
     description: "Desenvolvemos plataformas digitais rápidas, modernas e otimizadas para conversão e gestão do seu negócio.",
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
+    contactService: "Criação de Sites",
     features: [
       "UI/UX Design",
       "Websites Multi-Pages",
@@ -18,6 +19,7 @@ const services = [
     title: "Marketing & Tráfego",
     description: "Maximizamos o seu ROI e a sua presença online através de campanhas estratégicas e gestão de redes sociais.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    contactService: "Tráfego Pago",
     features: [
       "Google Ads",
       "Meta Ads & TikTok Ads",
@@ -30,6 +32,7 @@ const services = [
     title: "Audiovisual & Conteúdo",
     description: "Captação profissional de imagens e vídeos para destacar a essência da sua marca no mercado.",
     image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=800",
+    contactService: "Criação de Conteúdo",
     features: [
       "Fotografia Profissional",
       "Captação de Vídeo",
@@ -90,7 +93,7 @@ export function Services() {
                   {service.description}
                 </p>
 
-                <ul className="flex flex-col gap-3 sm:gap-4 mt-auto">
+                <ul className="flex flex-col gap-3 sm:gap-4">
                   {service.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-3 border-b border-white/5 pb-4 last:border-0 last:pb-0">
                       <Check className="w-5 h-5 text-[#D4FF00] shrink-0" />
@@ -98,6 +101,22 @@ export function Services() {
                     </li>
                   ))}
                 </ul>
+
+                <a
+                  href="#contacto"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const select = document.getElementById("service") as HTMLSelectElement | null;
+                    if (select) {
+                      select.value = service.contactService;
+                    }
+                    document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="mt-8 group flex w-full items-center justify-center gap-3 bg-fyze text-zinc-950 px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all hover:bg-white hover:shadow-[0_0_40px_rgba(0,240,255,0.4)]"
+                >
+                  Pedir Orçamento
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                </a>
               </div>
             </motion.div>
           ))}

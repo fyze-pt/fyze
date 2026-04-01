@@ -1,7 +1,75 @@
+import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
 export function Hero() {
+  const modelSrc = `${import.meta.env.BASE_URL}y fyze 3d.glb`;
+  const modelRef = useRef<HTMLElement>(null);
+  const spinBoostRef = useRef(0);
+
+  useEffect(() => {
+    let currentRotation = 90;
+    let targetRotation = 90;
+    let lightAngle = 0;
+    let idleAngle = 0;
+    let animationId: number;
+
+    const handleScroll = () => {
+      targetRotation = 90 + window.scrollY * 0.35;
+    };
+
+    const animate = () => {
+      // Spin boost decai suavemente
+      spinBoostRef.current *= 0.97;
+      currentRotation += (targetRotation - currentRotation) * 0.08 + spinBoostRef.current;
+      lightAngle += 0.02;
+      idleAngle += 0.008;
+
+      const exposure = 1.3 + Math.sin(lightAngle) * 0.5;
+      const idleTheta = Math.sin(idleAngle) * 3;
+      const idlePhi = Math.cos(idleAngle * 0.7) * 2;
+
+      const el = modelRef.current;
+      if (el) {
+        el.setAttribute("camera-orbit", `${currentRotation + idleTheta}deg ${75 + idlePhi}deg auto`);
+        el.setAttribute("exposure", `${exposure}`);
+      }
+      animationId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  const handleVerServicos = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Bounce: encolhe e volta
+    const el = modelRef.current;
+    if (el) {
+      el.style.transition = "transform 0.15s ease-in";
+      el.style.transform = "scale(0.85)";
+      setTimeout(() => {
+        el.style.transition = "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+        el.style.transform = "scale(1)";
+      }, 150);
+      setTimeout(() => {
+        el.style.transition = "";
+        el.style.transform = "";
+      }, 600);
+    }
+    // Boost de rotação
+    spinBoostRef.current = 8;
+    // Delay antes de scrollar
+    setTimeout(() => {
+      document.getElementById("servicos")?.scrollIntoView({ behavior: "smooth" });
+    }, 500);
+  };
+
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-24 pb-14 sm:pt-20 sm:pb-20">
       <div className="absolute inset-0 z-0 bg-zinc-950">
@@ -17,14 +85,14 @@ export function Hero() {
         <div className="absolute bottom-1/4 right-1/4 w-[280px] h-[280px] sm:w-[500px] sm:h-[500px] bg-fyze/5 rounded-full blur-[100px] sm:blur-[120px] mix-blend-screen" />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:justify-between gap-4 lg:gap-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full"
+          className="w-full lg:w-[65%] text-center lg:text-left"
         >
-          <h1 className="text-[15vw] sm:text-[10vw] md:text-[8vw] lg:text-[7vw] font-black tracking-tighter uppercase leading-[0.88] sm:leading-[0.85] mb-6 sm:mb-8 text-white">
+          <h1 className="text-[15vw] sm:text-[10vw] md:text-[8vw] lg:text-[6vw] xl:text-[5.5vw] font-black tracking-tighter uppercase leading-[0.88] sm:leading-[0.85] mb-6 sm:mb-8 text-white">
             Elevamos <br />
             <span className="text-fyze relative inline-block">
               sua marca
@@ -38,28 +106,64 @@ export function Hero() {
             <br />ao digital
           </h1>
 
-          <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto font-medium leading-relaxed">
+          <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-2xl text-zinc-400 max-w-3xl lg:max-w-2xl font-medium leading-relaxed lg:mx-0 mx-auto">
             Agência de Marketing Digital focada em resultados exponenciais.
             Atuamos em Lisboa, Algarve e em todo o Portugal.
           </p>
 
-          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-stretch sm:items-center">
+          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start items-stretch sm:items-center">
             <a
               href="#servicos"
+              onClick={handleVerServicos}
               className="group flex w-full sm:w-auto items-center justify-center gap-3 bg-fyze text-zinc-950 px-8 sm:px-10 py-4 sm:py-5 rounded-full text-sm md:text-base font-black uppercase tracking-[0.18em] sm:tracking-widest transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,240,255,0.4)]"
             >
               Ver Serviços
               <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
             </a>
-            <a
-              href="#contacto"
-              className="flex w-full sm:w-auto items-center justify-center gap-3 bg-transparent border-2 border-white/20 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-sm md:text-base font-black uppercase tracking-[0.18em] sm:tracking-widest transition-all hover:bg-white hover:text-zinc-950 hover:border-white"
-            >
-              Pedir Orçamento
-            </a>
           </div>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full lg:w-[35%] flex items-center justify-center relative"
+        >
+          {/* Glow pulsante atrás do modelo */}
+          <motion.div
+            animate={{ opacity: [0.4, 0.8, 0.4], scale: [0.85, 1.1, 0.85] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            className="absolute inset-0 m-auto w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] rounded-full pointer-events-none"
+            style={{
+              background: "radial-gradient(circle, rgba(102,252,240,0.3) 0%, rgba(102,252,240,0) 70%)",
+            }}
+          />
+          {/* @ts-expect-error model-viewer web component */}
+          <model-viewer
+            ref={modelRef}
+            src={modelSrc}
+            alt="Fyze Logo 3D"
+            camera-controls
+            disable-zoom
+            disable-pan
+            camera-orbit="90deg 75deg auto"
+            interaction-prompt="none"
+            exposure="1.5"
+            shadow-intensity="0"
+            environment-image="neutral"
+            style={{
+              width: "100%",
+              height: "450px",
+              backgroundColor: "transparent",
+              outline: "none",
+              border: "none",
+              filter: "sepia(1) hue-rotate(130deg) saturate(3) brightness(1.1)",
+            }}
+            className="sm:!h-[550px] lg:!h-[650px]"
+          />
+        </motion.div>
       </div>
+
 
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center opacity-50"
