@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight, ArrowLeft, X, Upload, FileText } from "lucide-react";
+import { ArrowRight, ArrowLeft, X, Upload, FileText, Loader2, Check } from "lucide-react";
+import { submitToGoogleSheets } from "../lib/googleSheets";
 
 export function RiskFreeOffer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -27,7 +30,33 @@ export function RiskFreeOffer() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setTimeout(() => setCurrentStep(1), 300);
+    setTimeout(() => {
+      setCurrentStep(1);
+      setSubmitStatus("idle");
+    }, 300);
+  };
+
+  const handleFinalSubmit = async () => {
+    setSubmitStatus("loading");
+
+    const form = formRef.current!;
+    const formData = new FormData(form);
+    const data: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      if (typeof value === "string") data[key] = value;
+    });
+
+    try {
+      await submitToGoogleSheets("Pedido de Site", data);
+      setSubmitStatus("success");
+      setTimeout(() => {
+        closeModal();
+        setSelectedFiles([]);
+      }, 2000);
+    } catch {
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 4000);
+    }
   };
 
   return (
@@ -132,12 +161,12 @@ export function RiskFreeOffer() {
               </div>
 
               <form
+                ref={formRef}
                 className="flex-1 flex flex-col"
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (currentStep === 3) {
-                    closeModal();
-                    setSelectedFiles([]);
+                    handleFinalSubmit();
                   } else {
                     nextStep();
                   }
@@ -158,19 +187,19 @@ export function RiskFreeOffer() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">Nome</label>
-                            <input type="text" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="O seu nome" />
+                            <input type="text" name="nome" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="O seu nome" />
                           </div>
                           <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">Email</label>
-                            <input type="email" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="O seu email" />
+                            <input type="email" name="email" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="O seu email" />
                           </div>
                           <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">WhatsApp</label>
-                            <input type="tel" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="O seu número" />
+                            <input type="tel" name="whatsapp" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="O seu número" />
                           </div>
                           <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">Tipo de Negócio</label>
-                            <input type="text" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="Ex: Restaurante, Clínica..." />
+                            <input type="text" name="tipo_negocio" required className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="Ex: Restaurante, Clínica..." />
                           </div>
                         </div>
                       </motion.div>
@@ -250,7 +279,7 @@ export function RiskFreeOffer() {
 
                         <div className="space-y-2">
                           <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">Sites de Referência (Opcional)</label>
-                          <input type="text" className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="Links de sites que gosta" />
+                          <input type="text" name="sites_referencia" className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors" placeholder="Links de sites que gosta" />
                         </div>
 
                         <div className="space-y-2">
@@ -308,10 +337,17 @@ export function RiskFreeOffer() {
 
                   <button
                     type="submit"
-                    className="flex w-full sm:flex-1 sm:max-w-[200px] items-center justify-center gap-2 bg-fyze text-zinc-950 font-black uppercase tracking-[0.14em] sm:tracking-widest px-6 py-4 rounded-xl hover:bg-white transition-colors"
+                    disabled={submitStatus === "loading" || submitStatus === "success"}
+                    className="flex w-full sm:flex-1 sm:max-w-[240px] items-center justify-center gap-2 bg-fyze text-zinc-950 font-black uppercase tracking-[0.14em] sm:tracking-widest px-6 py-4 rounded-xl hover:bg-white transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {currentStep === 3 ? "Enviar Pedido" : "Seguinte"}
-                    {currentStep < 3 && <ArrowRight className="w-5 h-5" />}
+                    {currentStep === 3 ? (
+                      submitStatus === "loading" ? <Loader2 className="w-5 h-5 animate-spin" /> :
+                      submitStatus === "success" ? <><Check className="w-5 h-5" /> Enviado!</> :
+                      submitStatus === "error" ? "Erro. Tente novamente." :
+                      "Enviar Pedido"
+                    ) : (
+                      <>Seguinte <ArrowRight className="w-5 h-5" /></>
+                    )}
                   </button>
                 </div>
               </form>

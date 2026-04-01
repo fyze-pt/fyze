@@ -1,7 +1,35 @@
+import { useState, useRef } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight, Loader2, Check } from "lucide-react";
+import { submitToGoogleSheets } from "../lib/googleSheets";
 
 export function Contact() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    const form = formRef.current!;
+    const data = {
+      nome: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      servico: (form.elements.namedItem("service") as HTMLSelectElement).value,
+      mensagem: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      await submitToGoogleSheets("Contacto", data);
+      setStatus("success");
+      form.reset();
+      setTimeout(() => setStatus("idle"), 4000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
+  };
+
   return (
     <section id="contacto" className="py-20 sm:py-24 bg-zinc-950 relative border-t border-white/5">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,12 +88,14 @@ export function Contact() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="bg-zinc-900/50 p-5 sm:p-8 md:p-12 rounded-[2rem] sm:rounded-[2.5rem] border border-white/5 backdrop-blur-sm"
           >
-            <form className="space-y-6 sm:space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <form ref={formRef} className="space-y-6 sm:space-y-8" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="name" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">Nome</label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
+                  required
                   className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors font-medium"
                   placeholder="O seu nome"
                 />
@@ -76,6 +106,8 @@ export function Contact() {
                 <input
                   type="email"
                   id="email"
+                  name="email"
+                  required
                   className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors font-medium"
                   placeholder="O seu email"
                 />
@@ -86,6 +118,7 @@ export function Contact() {
                 <div className="relative">
                   <select
                     id="service"
+                    name="service"
                     className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors appearance-none font-medium"
                   >
                     <option>Criação de Sites</option>
@@ -105,6 +138,7 @@ export function Contact() {
                 <label htmlFor="message" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">Mensagem</label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={4}
                   className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors resize-none font-medium"
                   placeholder="Como podemos ajudar?"
@@ -113,10 +147,18 @@ export function Contact() {
 
               <button
                 type="submit"
-                className="w-full group flex items-center justify-center gap-3 bg-fyze text-zinc-950 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl text-sm sm:text-base font-black uppercase tracking-[0.14em] sm:tracking-widest transition-all hover:bg-fyze/90 hover:shadow-[0_0_40px_rgba(0,240,255,0.4)]"
+                disabled={status === "loading"}
+                className="w-full group flex items-center justify-center gap-3 bg-fyze text-zinc-950 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl text-sm sm:text-base font-black uppercase tracking-[0.14em] sm:tracking-widest transition-all hover:bg-fyze/90 hover:shadow-[0_0_40px_rgba(0,240,255,0.4)] disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Enviar Mensagem
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                {status === "loading" && <Loader2 className="w-6 h-6 animate-spin" />}
+                {status === "success" && <><Check className="w-6 h-6" /> Mensagem Enviada!</>}
+                {status === "error" && "Erro ao enviar. Tente novamente."}
+                {status === "idle" && (
+                  <>
+                    Enviar Mensagem
+                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                  </>
+                )}
               </button>
             </form>
           </motion.div>
