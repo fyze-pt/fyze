@@ -106,12 +106,12 @@ export function Hero() {
             <br />ao digital
           </h1>
 
-          <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-2xl text-zinc-400 max-w-3xl lg:max-w-2xl font-medium leading-relaxed lg:mx-0 mx-auto">
+          <p className="mt-4 sm:mt-8 text-base sm:text-lg md:text-2xl text-zinc-400 max-w-3xl lg:max-w-2xl font-medium leading-relaxed lg:mx-0 mx-auto">
             Agência de Marketing Digital focada em resultados exponenciais.
             Atuamos em Lisboa, Algarve e em todo o Portugal.
           </p>
 
-          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start items-stretch sm:items-center">
+          <div className="mt-6 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start items-stretch sm:items-center">
             <a
               href="#servicos"
               onClick={handleVerServicos}
@@ -127,7 +127,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full lg:w-[35%] flex items-center justify-center relative order-1 lg:order-2 -mb-8 lg:mb-0"
+          className="w-full lg:w-[35%] flex items-center justify-center relative order-1 lg:order-2 -mb-4 lg:mb-0"
         >
           {/* Glow pulsante atrás do modelo */}
           <motion.div
@@ -143,7 +143,6 @@ export function Hero() {
             ref={modelRef}
             src={modelSrc}
             alt="Fyze Logo 3D"
-            camera-controls
             disable-zoom
             disable-pan
             camera-orbit="90deg 75deg auto"
@@ -153,13 +152,12 @@ export function Hero() {
             environment-image="neutral"
             style={{
               width: "100%",
-              height: "450px",
               backgroundColor: "transparent",
               outline: "none",
               border: "none",
               filter: "sepia(1) hue-rotate(130deg) saturate(3) brightness(1.1)",
             }}
-            className="sm:!h-[550px] lg:!h-[650px]"
+            className="h-[40svh] sm:h-[450px] lg:h-[650px]"
           />
         </motion.div>
       </div>
