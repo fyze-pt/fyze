@@ -90,7 +90,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full lg:w-[65%] text-center lg:text-left"
+          className="w-full lg:w-[65%] text-center lg:text-left order-2 lg:order-1"
         >
           <h1 className="text-[15vw] sm:text-[10vw] md:text-[8vw] lg:text-[6vw] xl:text-[5.5vw] font-black tracking-tighter uppercase leading-[0.88] sm:leading-[0.85] mb-6 sm:mb-8 text-white">
             Elevamos <br />
@@ -127,7 +127,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full lg:w-[35%] flex items-center justify-center relative"
+          className="w-full lg:w-[35%] flex items-center justify-center relative order-1 lg:order-2 -mb-8 lg:mb-0"
         >
           {/* Glow pulsante atrás do modelo */}
           <motion.div
