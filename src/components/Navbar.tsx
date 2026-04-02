@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,13 +27,13 @@ export function Navbar() {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex-shrink-0">
-            <a href="#" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-2 group">
               <img
                 src={logoSrc}
                 alt="Fyze"
                 className="h-12 sm:h-14 w-auto transition-opacity group-hover:opacity-80"
               />
-            </a>
+            </Link>
           </div>
 
           <div className="hidden md:block">

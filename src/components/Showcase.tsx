@@ -1,29 +1,8 @@
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-
-const cases = [
-  {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
-    alt: "Website Case",
-  },
-  {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1618761714954-0b8cd0026356?auto=format&fit=crop&q=80&w=800",
-    alt: "Branding Case",
-  },
-  {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&q=80&w=800",
-    alt: "Stationery Case",
-  },
-  {
-    id: 4,
-    image: "https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&q=80&w=800",
-    alt: "Print Case",
-  },
-];
+import { Link } from "react-router-dom";
+import { cases } from "../data/cases";
 
 export function Showcase() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -97,9 +76,6 @@ export function Showcase() {
             viewport={{ once: true }}
             className="flex flex-wrap items-center gap-3 sm:gap-4 pb-2"
           >
-            <button className="px-5 sm:px-8 py-3 rounded-full border border-white/20 text-white text-sm sm:text-base font-bold hover:bg-white hover:text-zinc-950 transition-colors">
-              Ver todos
-            </button>
             <button
               type="button"
               onClick={() => scrollCarousel("left")}
@@ -117,47 +93,78 @@ export function Showcase() {
           </motion.div>
         </div>
 
+        {/* Mobile carousel */}
         <div
           ref={carouselRef}
           className="md:hidden -mx-4 px-4 flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none"
         >
           {cases.map((item, index) => (
             <motion.div
-              key={item.id}
+              key={item.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="group relative snap-center shrink-0 w-[84%] aspect-[4/5] rounded-3xl overflow-hidden bg-zinc-900"
+              className="snap-center shrink-0 w-[84%]"
             >
-              <img
-                src={item.image}
-                alt={item.alt}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+              <Link to={`/cases/${item.slug}`} className="group block">
+                <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-zinc-900">
+                  <img
+                    src={item.heroImage}
+                    alt={item.client}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img
+                      src={item.logo}
+                      alt={item.client}
+                      className="h-10 sm:h-12 w-auto brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <p className="text-white/70 text-sm font-medium">
+                      {item.scope.slice(0, 2).join(" / ")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Desktop grid */}
+        <div className="hidden md:grid grid-cols-2 gap-6">
           {cases.map((item, index) => (
             <motion.div
-              key={item.id}
+              key={item.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-zinc-900"
             >
-              <img
-                src={item.image}
-                alt={item.alt}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+              <Link to={`/cases/${item.slug}`} className="group block">
+                <div className="relative aspect-video rounded-3xl overflow-hidden bg-zinc-900">
+                  <img
+                    src={item.heroImage}
+                    alt={item.client}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-500" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img
+                      src={item.logo}
+                      alt={item.client}
+                      className="h-14 lg:h-16 w-auto brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <p className="text-white/70 text-sm font-medium">
+                      {item.scope.slice(0, 3).join(" / ")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

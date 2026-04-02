@@ -1,65 +1,17 @@
 import { motion } from "motion/react";
-import { Asterisk, Smile, Hexagon, Triangle } from "lucide-react";
 
 const logos = [
-  {
-    name: "nora",
-    element: <span className="text-4xl font-black lowercase tracking-tighter">nora</span>,
-  },
-  {
-    name: "elara",
-    element: (
-      <div className="flex items-center gap-2">
-        <span className="text-4xl font-serif lowercase tracking-tight">elara</span>
-        <Asterisk className="w-8 h-8" />
-      </div>
-    ),
-  },
-  {
-    name: "KuantaVita",
-    element: <span className="text-4xl font-serif tracking-tight">KuantaVita.</span>,
-  },
-  {
-    name: "Liberad",
-    element: (
-      <div className="flex items-center gap-1">
-        <span className="text-4xl font-semibold tracking-tight">Liberad</span>
-        <Smile className="w-8 h-8" />
-      </div>
-    ),
-  },
-  {
-    name: "biovit farma",
-    element: (
-      <div className="flex flex-col -gap-2">
-        <span className="text-3xl font-serif italic leading-none">biovit</span>
-        <span className="text-3xl font-serif italic leading-none text-zinc-500">farma</span>
-      </div>
-    ),
-  },
-  {
-    name: "nexus",
-    element: (
-      <div className="flex items-center gap-2">
-        <Hexagon className="w-8 h-8" />
-        <span className="text-4xl font-bold uppercase tracking-widest">Nexus</span>
-      </div>
-    ),
-  },
-  {
-    name: "vertex",
-    element: (
-      <div className="flex items-center gap-2">
-        <Triangle className="w-8 h-8" />
-        <span className="text-4xl font-light uppercase tracking-widest">Vertex</span>
-      </div>
-    ),
-  },
+  { name: "AguaQlub", src: "/logos/aguaqlub.png" },
+  { name: "NosoloÁgua", src: "/logos/nosoloagua.png" },
+  { name: "Patacas Bar", src: "/logos/patacas-bar.png" },
+  { name: "CharruaFit", src: "/logos/charruafit.png" },
+  { name: "4Guys", src: "/logos/4guys.png" },
+  { name: "Oporto Tavern", src: "/logos/oporto-tavern.png" },
 ];
 
 export function Clients() {
   return (
-    <section className="py-12 bg-zinc-950 border-t border-white/5 overflow-hidden">
+    <section className="py-16 sm:py-20 bg-zinc-950 border-t border-white/5 overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
         <p className="text-[11px] sm:text-sm font-bold uppercase tracking-[0.12em] text-white">
           CONFIADO PELAS SEGUINTES EMPRESAS
@@ -77,22 +29,30 @@ export function Clients() {
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 30,
+            duration: 40,
           }}
         >
           {/* First set of logos */}
-          <div className="flex items-center gap-12 sm:gap-24 px-6 sm:px-12">
+          <div className="flex items-center gap-16 sm:gap-32 px-8 sm:px-16">
             {logos.map((logo, index) => (
-              <div key={`logo-1-${index}`} className="text-zinc-400 flex-shrink-0">
-                {logo.element}
+              <div key={`logo-1-${index}`} className="flex-shrink-0">
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-10 sm:h-14 w-auto max-w-[120px] sm:max-w-[160px] object-contain brightness-0 invert opacity-60"
+                />
               </div>
             ))}
           </div>
           {/* Duplicated set for seamless loop */}
-          <div className="flex items-center gap-12 sm:gap-24 px-6 sm:px-12">
+          <div className="flex items-center gap-16 sm:gap-32 px-8 sm:px-16">
             {logos.map((logo, index) => (
-              <div key={`logo-2-${index}`} className="text-zinc-400 flex-shrink-0">
-                {logo.element}
+              <div key={`logo-2-${index}`} className="flex-shrink-0">
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-10 sm:h-14 w-auto max-w-[120px] sm:max-w-[160px] object-contain brightness-0 invert opacity-60"
+                />
               </div>
             ))}
           </div>
