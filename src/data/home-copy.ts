@@ -1,4 +1,5 @@
 import type { Variant } from "@/lib/variant";
+import type { Locale } from "@/lib/locale";
 
 export type MethodStep = {
   number: string;
@@ -423,6 +424,127 @@ const COPY: Record<Variant, HomeCopy> = {
   },
 };
 
-export function getHomeCopy(variant: Variant): HomeCopy {
-  return COPY[variant];
+// English version (single, locale-based — A/B variants are PT-only experiments).
+const HOME_COPY_EN: HomeCopy = {
+  hero: {
+    headline: {
+      lines: [
+        "You don't need more marketing.",
+        "You need a system that generates clients.",
+      ],
+      highlight: "system",
+    },
+    subhead:
+      "Fyze pinpoints where your business is missing opportunities and builds the right structure to turn attention into clients.",
+    transition: "We call it the Fyze Method.",
+    cta: "Analyze my business",
+    proof:
+      "Over 4 years helping businesses in Lisbon and the Algarve grow consistently online.",
+  },
+  beliefBreaker: {
+    headline: "Most businesses think they need more traffic.",
+    paragraphs: [
+      "They don't.",
+      "You can have more followers, more visits, more reach — and still have no clients.",
+      "Because the real problem is something else: misaligned communication, a weak structure, the lack of a clear system.",
+    ],
+    closingLine: "Without that, you're just throwing money away.",
+  },
+  realProblem: {
+    headline: "If your business isn't growing consistently…",
+    intro: "You're probably stuck in a cycle:",
+    bullets: [
+      "Attracting the wrong people",
+      "Not converting those who arrive",
+      "No predictability",
+      "Trying to fix it with more effort, when what's missing is direction",
+    ],
+    closingLine: "It's not a lack of work. It's a lack of system.",
+  },
+  method: {
+    headline: "The Fyze Method",
+    subhead:
+      "We don't scale businesses with random posts or ads. We build a complete acquisition system.",
+    steps: [
+      {
+        number: "01",
+        title: "Leaks",
+        lead: "Where your business is losing clients every day without realizing it.",
+        items: [
+          "A full X-ray of your digital presence",
+          "Identifying the leak points",
+          "Fixing the communication",
+          "Positioning that makes the client choose you",
+        ],
+        conclusion:
+          "Here you stop losing money before you even try to grow.",
+      },
+      {
+        number: "02",
+        title: "Conversion",
+        lead: "How to turn attention into a client, not just a follower.",
+        items: [
+          "An Instagram that conveys authority",
+          "Content that sparks real interest",
+          "A presence that builds trust",
+          "A structure that drives action",
+        ],
+        conclusion:
+          "Here your digital presence stops being a showcase and starts selling.",
+      },
+      {
+        number: "03",
+        title: "Scale",
+        lead: "How to turn that into a predictable flow of clients.",
+        items: [
+          "Traffic with strategy (not impulse)",
+          "The right audience at the right moment",
+          "A message aligned with the pain point",
+          "Consistent results",
+        ],
+        conclusion: "Here you leave randomness behind and take control.",
+      },
+    ],
+  },
+  methodClose: {
+    lines: [
+      "Without fixing leaks, you lose money.",
+      "Without conversion, you lose opportunities.",
+      "Without scale, you don't grow.",
+    ],
+    punch: "Fyze solves all three.",
+  },
+  services: {
+    headline: { line1: "How this happens", line2: "in your business" },
+    subhead:
+      "Strategy + structure + traffic operating as a single system, adapted to the market.",
+  },
+  riskFree: {
+    eyebrow: "The Fyze Difference",
+    headline: {
+      line1: "We don't ask for trust.",
+      highlight: "We show you first.",
+    },
+    body: "We build the first version of your site before you pay. You review it, understand it and decide. No risk. No pressure. No empty promises.",
+    cta: "See the first version of my site",
+  },
+  authority: {
+    headline: { line1: "Why Fyze works", line2: "" },
+    bullets: [
+      "4+ years operating in Lisbon and the Algarve",
+      "Real experience with local businesses",
+      "Quick to identify where money is being lost",
+      "Strategy before execution",
+    ],
+    proofText:
+      "We don't apply generic formulas. We work with what actually works.",
+  },
+  finalCta: {
+    headline: "Not growing online\nmeans losing clients every day.",
+    cta: "Analyze my business",
+  },
+};
+
+export function getHomeCopy(variant: Variant, locale: Locale = "pt"): HomeCopy {
+  return locale === "en" ? HOME_COPY_EN : COPY[variant];
 }

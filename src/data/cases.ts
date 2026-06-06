@@ -1,3 +1,6 @@
+import type { Locale } from "@/lib/locale";
+import { casesEn } from "@/data/cases.en";
+
 export interface ServiceSection {
   title: string;
   description: string;
@@ -562,3 +565,33 @@ export const cases: CaseStudy[] = [
     ],
   },
 ];
+
+/** Merges the English text overlay (cases.en.ts) onto a base case. */
+function localizeCase(base: CaseStudy, locale: Locale): CaseStudy {
+  if (locale !== "en") return base;
+  const t = casesEn[base.slug];
+  if (!t) return base;
+  return {
+    ...base,
+    sector: t.sector ?? base.sector,
+    scope: t.scope ?? base.scope,
+    challenge: t.challenge ?? base.challenge,
+    approach: t.approach ?? base.approach,
+    description: t.description ?? base.description,
+    results: t.results ?? base.results,
+    services: base.services.map((s, i) => ({
+      ...s,
+      title: t.services?.[i]?.title ?? s.title,
+      description: t.services?.[i]?.description ?? s.description,
+    })),
+  };
+}
+
+export function getCases(locale: Locale): CaseStudy[] {
+  return cases.map((c) => localizeCase(c, locale));
+}
+
+export function getCase(slug: string, locale: Locale): CaseStudy | undefined {
+  const base = cases.find((c) => c.slug === slug);
+  return base ? localizeCase(base, locale) : undefined;
+}

@@ -2,17 +2,22 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Analytics } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
+import { LocaleProvider } from "@/components/LocaleProvider";
 import { getVariant } from "@/lib/variant";
+import { getLocale } from "@/lib/locale.server";
+import { getUICopy } from "@/data/ui-copy";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Fyze Agency | Marketing Digital",
-  description:
-    "Agência de Marketing Digital focada em resultados exponenciais. Atuamos em Lisboa, Algarve e em todo o Portugal.",
-  icons: {
-    icon: "/y-fyze.svg",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = getUICopy(await getLocale());
+  return {
+    title: ui.meta.layoutTitle,
+    description: ui.meta.layoutDescription,
+    icons: {
+      icon: "/y-fyze.svg",
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#09090b",
@@ -26,9 +31,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const variant = await getVariant();
+  const locale = await getLocale();
 
   return (
-    <html lang="pt-PT">
+    <html lang={locale === "en" ? "en" : "pt-PT"}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -61,8 +67,10 @@ export default async function RootLayout({
             gtag('set', 'url_passthrough', true);
           `}
         </Script>
-        {children}
-        <CookieConsent />
+        <LocaleProvider initialLocale={locale}>
+          {children}
+          <CookieConsent />
+        </LocaleProvider>
         <Analytics variant={variant} />
         <Script
           src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"

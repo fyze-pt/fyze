@@ -3,85 +3,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus } from "lucide-react";
-
-type Faq = {
-  q: string;
-  paragraphs: string[];
-};
-
-const FAQS: Faq[] = [
-  {
-    q: "Quantos posts, reels ou stories vocês fazem por semana?",
-    paragraphs: [
-      "Não trabalhamos com volume fixo de conteúdo. Trabalhamos com o que gera resultado.",
-      "Em muitos casos, menos conteúdo com estratégia gera muito mais do que postar todos os dias sem direção.",
-      "O foco não é “alimentar redes”. É transformar atenção em clientes.",
-      "Se o seu negócio precisa de 30 posts por mês para funcionar… o problema não é conteúdo. É estrutura.",
-    ],
-  },
-  {
-    q: "Vocês fazem gestão de redes sociais?",
-    paragraphs: [
-      "Sim, mas não da forma tradicional. Não estamos aqui para “postar por postar”.",
-      "Construímos uma presença que posiciona, gera interesse e prepara o cliente para a compra.",
-      "Redes sociais, para nós, são uma ferramenta de conversão. Não um calendário de posts.",
-    ],
-  },
-  {
-    q: "Eu preciso mesmo de tudo isso ou só de tráfego?",
-    paragraphs: [
-      "Tráfego sem base é dinheiro desperdiçado.",
-      "Se o seu negócio não está preparado para converter, mais visitas só aumentam o problema.",
-      "Primeiro garantimos estrutura. Depois escalamos.",
-    ],
-  },
-  {
-    q: "E se eu já tiver alguém a fazer o meu marketing?",
-    paragraphs: [
-      "Ótimo. O problema raramente é “ter alguém”. É ter direção.",
-      "Muitas vezes encontramos gargalos que passam despercebidos, e que estão a travar completamente o crescimento.",
-    ],
-  },
-  {
-    q: "Quanto tempo demora para ver resultados?",
-    paragraphs: [
-      "Depende do ponto de partida. Mas a diferença aparece rápido quando o sistema começa a funcionar.",
-      "Porque deixamos de depender de tentativa e erro e passamos a operar com estratégia.",
-    ],
-  },
-  {
-    q: "Isso funciona para o meu tipo de negócio?",
-    paragraphs: [
-      "Funciona para negócios que querem crescer com consistência no digital.",
-      "Se você depende de indicação, não tem previsibilidade ou sente que o digital não está a funcionar… é exatamente aí que entramos.",
-    ],
-  },
-  {
-    q: "Vocês trabalham com qualquer cliente?",
-    paragraphs: [
-      "Não. Trabalhamos com negócios que querem crescer de forma estruturada.",
-      "Se você procura apenas “posts” ou “anúncios rápidos”, provavelmente não somos a melhor escolha.",
-    ],
-  },
-  {
-    q: "O que acontece depois de eu entrar em contacto?",
-    paragraphs: [
-      "Primeiro, fazemos um diagnóstico do seu negócio.",
-      "Identificamos onde você está a perder dinheiro e mostramos o caminho mais direto para crescer.",
-      "A partir daí, decidimos juntos o próximo passo.",
-    ],
-  },
-  {
-    q: "Por que a Fyze é diferente de outras agências?",
-    paragraphs: [
-      "Porque não vendemos serviços soltos.",
-      "Construímos um sistema completo de aquisição de clientes.",
-      "E fazemos isso há mais de 4 anos no mercado português, com foco real em resultado.",
-    ],
-  },
-];
+import { useLocale } from "@/components/LocaleProvider";
 
 export function FaqAntiAgency() {
+  const { ui } = useLocale();
+  const FAQS = ui.faq.items;
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
@@ -98,10 +24,10 @@ export function FaqAntiAgency() {
           className="mb-12 sm:mb-16"
         >
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter uppercase leading-[0.95] text-white max-w-3xl">
-            Se você já trabalhou com uma agência antes,
+            {ui.faq.heading1}
             <br />
             <span className="text-fyze">
-              provavelmente está a pensar nisso:
+              {ui.faq.heading2}
             </span>
           </h2>
         </motion.div>

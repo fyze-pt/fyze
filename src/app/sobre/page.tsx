@@ -10,37 +10,43 @@ import { SobreBastidores } from "@/components/sobre/Bastidores";
 import { SobreExperiencia } from "@/components/sobre/Experiencia";
 import { Filtro } from "@/components/shared/Filtro";
 import { SobreFinalCta } from "@/components/sobre/FinalCta";
-import { sobreCopy } from "@/data/sobre-copy";
+import { getSobreCopy } from "@/data/sobre-copy";
+import { getUICopy } from "@/data/ui-copy";
+import { getLocale } from "@/lib/locale.server";
 
 const VARIANT = "sobre-lp";
 
-export const metadata: Metadata = {
-  title: "Sobre a Fyze | Não somos uma agência tradicional",
-  description:
-    "A Fyze nasceu para resolver um problema simples: negócios que investem no digital, mas não crescem. Construímos sistemas, não fazemos marketing por fazer.",
-  openGraph: {
-    title: "Sobre a Fyze",
-    description:
-      "Não somos uma agência tradicional. E isso é intencional.",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = getUICopy(await getLocale());
+  return {
+    title: ui.meta.sobre.title,
+    description: ui.meta.sobre.description,
+    openGraph: {
+      title: ui.meta.sobre.ogTitle,
+      description: ui.meta.sobre.ogDescription,
+      type: "website",
+    },
+  };
+}
 
-export default function SobrePage() {
+export default async function SobrePage() {
+  const locale = await getLocale();
+  const copy = getSobreCopy(locale);
+
   return (
     <ContactModalProvider variant={VARIANT}>
       <main className="bg-zinc-950 min-h-screen" data-page="sobre-lp">
         <Navbar />
-        <SobreHero copy={sobreCopy.hero} />
-        <SobreRealidade copy={sobreCopy.realidade} />
-        <SobreComoPensamos copy={sobreCopy.comoPensamos} />
-        <SobreBastidores copy={sobreCopy.bastidores} />
-        <SobreExperiencia copy={sobreCopy.experiencia} />
+        <SobreHero copy={copy.hero} />
+        <SobreRealidade copy={copy.realidade} />
+        <SobreComoPensamos copy={copy.comoPensamos} />
+        <SobreBastidores copy={copy.bastidores} />
+        <SobreExperiencia copy={copy.experiencia} />
         <Filtro
-          headline={sobreCopy.filtro.headline}
-          body={sobreCopy.filtro.body}
+          headline={copy.filtro.headline}
+          body={copy.filtro.body}
         />
-        <SobreFinalCta copy={sobreCopy.finalCta} />
+        <SobreFinalCta copy={copy.finalCta} />
         <Footer />
         <WhatsAppButton variant={VARIANT} />
       </main>

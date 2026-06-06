@@ -15,37 +15,43 @@ import {
 } from "@/components/websites/CasesIntro";
 import { WebsitesFaq } from "@/components/websites/Faq";
 import { WebsitesOfertaFinal } from "@/components/websites/OfertaFinal";
-import { websitesCopy } from "@/data/websites-copy";
+import { getWebsitesCopy } from "@/data/websites-copy";
+import { getLocale } from "@/lib/locale.server";
+import { getUICopy } from "@/data/ui-copy";
 
 const VARIANT = "websites-lp";
 
-export const metadata: Metadata = {
-  title: "Criação de Websites | Fyze — Você só paga se gostar",
-  description:
-    "A Fyze cria a primeira versão completa do seu site antes de você pagar. Estrutura focada em conversão. Sem risco. Se não gostar, não paga.",
-  openGraph: {
-    title: "Criação de Websites | Fyze",
-    description:
-      "Você vê a primeira versão do seu site antes de pagar. Estrutura pensada pra gerar clientes.",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = getUICopy(await getLocale());
+  return {
+    title: ui.meta.websites.title,
+    description: ui.meta.websites.description,
+    openGraph: {
+      title: ui.meta.websites.ogTitle,
+      description: ui.meta.websites.ogDescription,
+      type: "website",
+    },
+  };
+}
 
-export default function CriacaoDeWebsitesPage() {
+export default async function CriacaoDeWebsitesPage() {
+  const locale = await getLocale();
+  const copy = getWebsitesCopy(locale);
+
   return (
     <ContactModalProvider variant={VARIANT}>
       <SiteFormModalProvider variant={VARIANT}>
       <main className="bg-zinc-950 min-h-screen" data-page="websites-lp">
         <Navbar />
-        <WebsitesHero copy={websitesCopy.hero} />
-        <BeliefBreaker copy={websitesCopy.beliefBreaker} />
-        <WebsitesReposicionamento copy={websitesCopy.reposicionamento} />
-        <WebsitesMecanismo copy={websitesCopy.mecanismo} />
-        <WebsitesCasesIntro copy={websitesCopy.casesIntro} />
+        <WebsitesHero copy={copy.hero} />
+        <BeliefBreaker copy={copy.beliefBreaker} />
+        <WebsitesReposicionamento copy={copy.reposicionamento} />
+        <WebsitesMecanismo copy={copy.mecanismo} />
+        <WebsitesCasesIntro copy={copy.casesIntro} />
         <WebsitesCases />
-        <WebsitesCasesClosing copy={websitesCopy.casesIntro} />
-        <WebsitesFaq copy={websitesCopy.faq} />
-        <WebsitesOfertaFinal copy={websitesCopy.ofertaFinal} />
+        <WebsitesCasesClosing copy={copy.casesIntro} />
+        <WebsitesFaq copy={copy.faq} />
+        <WebsitesOfertaFinal copy={copy.ofertaFinal} />
         <Footer />
         <WhatsAppButton variant={VARIANT} />
       </main>

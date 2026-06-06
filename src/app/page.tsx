@@ -16,13 +16,15 @@ import { FloatingModel } from "@/components/FloatingModel";
 import { ContactModalProvider } from "@/components/ContactModal";
 import { SiteFormModalProvider } from "@/components/SiteFormModal";
 import { getVariant } from "@/lib/variant";
+import { getLocale } from "@/lib/locale.server";
 import { getHomeCopy } from "@/data/home-copy";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const variant = await getVariant();
-  const copy = getHomeCopy(variant);
+  const locale = await getLocale();
+  const copy = getHomeCopy(variant, locale);
 
   return (
     <ContactModalProvider variant={variant}>

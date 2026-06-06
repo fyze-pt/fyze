@@ -3,12 +3,15 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import { websitesCases } from "@/data/websites-cases";
+import { getWebsiteCases } from "@/data/websites-cases";
 import { trackEvent } from "@/lib/analytics";
+import { useLocale } from "@/components/LocaleProvider";
 
 const VARIANT = "websites-lp";
 
 export function WebsitesCases() {
+  const { ui, locale } = useLocale();
+  const websitesCases = getWebsiteCases(locale);
   return (
     <section className="py-20 sm:py-28 bg-zinc-950 border-t border-white/5">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,7 +56,7 @@ export function WebsitesCases() {
                     {c.shortDescription}
                   </p>
                   <span className="inline-flex items-center gap-2 text-fyze text-sm font-bold uppercase tracking-widest group-hover:text-white transition-colors">
-                    Ver case
+                    {ui.websiteCase.seeCase}
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </span>
                 </div>

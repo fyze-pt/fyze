@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { submitToGoogleSheets } from "@/lib/googleSheets";
 import { trackEvent } from "@/lib/analytics";
+import { useLocale } from "@/components/LocaleProvider";
 
 type Ctx = {
   open: (origin?: string) => void;
@@ -42,6 +43,7 @@ export function SiteFormModalProvider({
   children: ReactNode;
   variant?: string;
 }) {
+  const { ui } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const [origin, setOrigin] = useState<string | undefined>(undefined);
   const [currentStep, setCurrentStep] = useState(1);
@@ -132,7 +134,7 @@ export function SiteFormModalProvider({
             >
               <button
                 onClick={close}
-                aria-label="Fechar"
+                aria-label={ui.siteForm.close}
                 className="absolute top-4 right-4 sm:top-6 sm:right-6 text-zinc-400 hover:text-white transition-colors z-10"
               >
                 <X className="w-6 h-6" />
@@ -140,11 +142,11 @@ export function SiteFormModalProvider({
 
               <div className="mb-8">
                 <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-2 text-white pr-10">
-                  Conte-nos sobre o seu{" "}
-                  <span className="text-fyze">projeto</span>
+                  {ui.siteForm.title}{" "}
+                  <span className="text-fyze">{ui.siteForm.titleHighlight}</span>
                 </h3>
                 <p className="text-zinc-400 font-medium">
-                  Passo {currentStep} de 3
+                  {ui.siteForm.stepLabel.replace("{n}", String(currentStep))}
                 </p>
                 <div className="w-full bg-zinc-950 h-2 rounded-full mt-4 overflow-hidden">
                   <motion.div
@@ -177,13 +179,13 @@ export function SiteFormModalProvider({
                         className="space-y-4"
                       >
                         <h4 className="text-lg font-bold text-white border-b border-white/10 pb-2">
-                          Informações de Contacto
+                          {ui.siteForm.step1Title}
                         </h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <Field name="nome" label="Nome" placeholder="O seu nome" required />
-                          <Field name="email" label="Email" type="email" placeholder="O seu email" required />
-                          <Field name="whatsapp" label="WhatsApp" type="tel" placeholder="O seu número" required />
-                          <Field name="tipo_negocio" label="Tipo de Negócio" placeholder="Ex: Restaurante, Clínica..." required />
+                          <Field name="nome" label={ui.siteForm.fields.nome.label} placeholder={ui.siteForm.fields.nome.ph} required />
+                          <Field name="email" label={ui.siteForm.fields.email.label} type="email" placeholder={ui.siteForm.fields.email.ph} required />
+                          <Field name="whatsapp" label={ui.siteForm.fields.whatsapp.label} type="tel" placeholder={ui.siteForm.fields.whatsapp.ph} required />
+                          <Field name="tipo_negocio" label={ui.siteForm.fields.tipoNegocio.label} placeholder={ui.siteForm.fields.tipoNegocio.ph} required />
                         </div>
                       </motion.div>
                     )}
@@ -198,36 +200,27 @@ export function SiteFormModalProvider({
                         className="space-y-6"
                       >
                         <h4 className="text-lg font-bold text-white border-b border-white/10 pb-2">
-                          Sobre o Projeto
+                          {ui.siteForm.step2Title}
                         </h4>
                         <RadioGroup
                           name="objetivo"
-                          label="Qual seu principal objetivo com um website?"
-                          options={[
-                            "Gerar mais clientes",
-                            "Melhorar imagem e aumentar autoridade",
-                            "Vender online",
-                            "Outro",
-                          ]}
+                          label={ui.siteForm.objetivo.label}
+                          options={ui.siteForm.objetivo.options}
                         />
                         <RadioGroup
                           name="presenca_google"
-                          label="Já tem presença no Google? (Google Meu Negócio)"
-                          options={["Sim", "Não"]}
+                          label={ui.siteForm.presencaGoogle.label}
+                          options={ui.siteForm.presencaGoogle.options}
                         />
                         <RadioGroup
                           name="clientes_novos"
-                          label="Quantos clientes novos gostaria de gerar por mês através do website?"
-                          options={["0 - 10", "10 - 50", "50 - 100", "100 +"]}
+                          label={ui.siteForm.clientesNovos.label}
+                          options={ui.siteForm.clientesNovos.options}
                         />
                         <RadioGroup
                           name="prazo"
-                          label="Quando pretende ter o website pronto?"
-                          options={[
-                            "O quanto antes",
-                            "1 - 3 meses",
-                            "Só estou a avaliar",
-                          ]}
+                          label={ui.siteForm.prazo.label}
+                          options={ui.siteForm.prazo.options}
                         />
                       </motion.div>
                     )}
@@ -242,24 +235,24 @@ export function SiteFormModalProvider({
                         className="space-y-4"
                       >
                         <h4 className="text-lg font-bold text-white border-b border-white/10 pb-2">
-                          Referências
+                          {ui.siteForm.step3Title}
                         </h4>
                         <Field
                           name="sites_referencia"
-                          label="Sites de Referência (Opcional)"
-                          placeholder="Links de sites que gosta"
+                          label={ui.siteForm.sitesRef.label}
+                          placeholder={ui.siteForm.sitesRef.ph}
                         />
                         <div className="space-y-2">
                           <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                            Logomarca ou Identidade Visual (Opcional)
+                            {ui.siteForm.logoUpload.label}
                           </label>
                           <div className="relative w-full bg-zinc-950 border border-white/10 border-dashed rounded-xl px-4 py-8 flex flex-col items-center justify-center text-center hover:border-fyze transition-colors cursor-pointer group">
                             <Upload className="w-8 h-8 text-zinc-500 mb-3 group-hover:text-fyze transition-colors" />
                             <span className="text-sm text-zinc-400 font-medium">
-                              Clique para fazer upload ou arraste os ficheiros
+                              {ui.siteForm.logoUpload.dropText}
                             </span>
                             <span className="text-xs text-zinc-500 mt-1">
-                              PNG, JPG, PDF ou SVG (Máx. 10MB)
+                              {ui.siteForm.logoUpload.fileTypes}
                             </span>
                             <input
                               type="file"
@@ -306,7 +299,7 @@ export function SiteFormModalProvider({
                       className="flex items-center justify-center gap-2 bg-zinc-950 text-white border border-white/10 font-bold uppercase tracking-widest px-6 py-4 rounded-xl hover:bg-zinc-800 transition-colors"
                     >
                       <ArrowLeft className="w-5 h-5" />
-                      Voltar
+                      {ui.siteForm.voltar}
                     </button>
                   ) : (
                     <div className="hidden sm:block" />
@@ -324,16 +317,16 @@ export function SiteFormModalProvider({
                         <Loader2 className="w-5 h-5 animate-spin" />
                       ) : submitStatus === "success" ? (
                         <>
-                          <Check className="w-5 h-5" /> Enviado!
+                          <Check className="w-5 h-5" /> {ui.siteForm.enviado}
                         </>
                       ) : submitStatus === "error" ? (
-                        "Erro. Tente novamente."
+                        ui.siteForm.erro
                       ) : (
-                        "Enviar Pedido"
+                        ui.siteForm.enviarPedido
                       )
                     ) : (
                       <>
-                        Seguinte <ArrowRight className="w-5 h-5" />
+                        {ui.siteForm.seguinte} <ArrowRight className="w-5 h-5" />
                       </>
                     )}
                   </button>

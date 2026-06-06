@@ -7,8 +7,10 @@ import { ArrowUpRight, ArrowLeft, Play } from "lucide-react";
 import type { CaseStudy } from "@/data/cases";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { useLocale } from "@/components/LocaleProvider";
 
 function CaseVideo({ src, poster }: { src: string; poster: string }) {
+  const { ui } = useLocale();
   const ref = useRef<HTMLVideoElement>(null);
   const [showOverlay, setShowOverlay] = useState(true);
 
@@ -36,7 +38,7 @@ function CaseVideo({ src, poster }: { src: string; poster: string }) {
         <button
           type="button"
           onClick={() => ref.current?.play()}
-          aria-label="Reproduzir vídeo"
+          aria-label={ui.caseStudy.playVideo}
           className="absolute inset-0 flex items-center justify-center bg-black/15 hover:bg-black/25 transition-colors rounded-2xl"
         >
           <span className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-fyze/95 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
@@ -49,6 +51,7 @@ function CaseVideo({ src, poster }: { src: string; poster: string }) {
 }
 
 export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
+  const { ui } = useLocale();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [caseData.slug]);
@@ -68,7 +71,7 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
               className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors font-bold text-sm uppercase tracking-widest"
             >
               <ArrowLeft className="w-4 h-4" />
-              Voltar para cases
+              {ui.caseStudy.backToCases}
             </Link>
           </motion.div>
 
@@ -93,7 +96,7 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
                 rel="noopener noreferrer"
                 className="shrink-0 inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white font-bold hover:bg-white hover:text-zinc-950 transition-colors text-sm sm:text-base"
               >
-                Ir para website
+                {ui.caseStudy.goToWebsite}
                 <ArrowUpRight className="w-4 h-4" />
               </motion.a>
             )}
@@ -143,7 +146,7 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
                 />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-5 tracking-tight">
-                Desafio
+                {ui.caseStudy.challenge}
               </h2>
               <p className="text-zinc-400 text-base sm:text-lg leading-relaxed font-medium">
                 {caseData.challenge}
@@ -157,7 +160,7 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-5 tracking-tight">
-                Abordagem
+                {ui.caseStudy.approach}
               </h2>
               <p className="text-zinc-400 text-base sm:text-lg leading-relaxed font-medium">
                 {caseData.approach}
@@ -172,21 +175,21 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
               className="space-y-6"
             >
               <div>
-                <h3 className="text-lg font-black text-white mb-1">Cliente</h3>
+                <h3 className="text-lg font-black text-white mb-1">{ui.caseStudy.client}</h3>
                 <p className="text-zinc-400 font-medium">{caseData.client}</p>
               </div>
               <div>
-                <h3 className="text-lg font-black text-white mb-1">Ano</h3>
+                <h3 className="text-lg font-black text-white mb-1">{ui.caseStudy.year}</h3>
                 <p className="text-zinc-400 font-medium">{caseData.year}</p>
               </div>
               <div>
                 <h3 className="text-lg font-black text-white mb-1">
-                  Nicho/Setor
+                  {ui.caseStudy.sector}
                 </h3>
                 <p className="text-zinc-400 font-medium">{caseData.sector}</p>
               </div>
               <div>
-                <h3 className="text-lg font-black text-white mb-1">Escopo</h3>
+                <h3 className="text-lg font-black text-white mb-1">{ui.caseStudy.scope}</h3>
                 {caseData.scope.map((s) => (
                   <p key={s} className="text-zinc-400 font-medium">
                     {s}
@@ -208,7 +211,7 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
               transition={{ duration: 0.6 }}
               className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-14 sm:mb-20 tracking-tight"
             >
-              O que fizemos
+              {ui.caseStudy.whatWeDid}
             </motion.h2>
 
             <div className="space-y-24 sm:space-y-32">
@@ -309,7 +312,7 @@ export function CaseStudyContent({ caseData }: { caseData: CaseStudy }) {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-10 tracking-tight">
-                Resultados
+                {ui.caseStudy.results}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {caseData.results.map((result, i) => (

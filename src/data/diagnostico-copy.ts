@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/locale";
+
 export type DiagnosticoCopy = {
   hero: {
     headline: { lines: string[]; highlight: string };
@@ -176,3 +178,135 @@ export const diagnosticoCopy: DiagnosticoCopy = {
     ],
   },
 };
+
+export const diagnosticoCopyEn: DiagnosticoCopy = {
+  hero: {
+    headline: {
+      lines: [
+        "You don't need more marketing.",
+        "You need to find out where you're losing clients — every single day.",
+      ],
+      highlight: "losing clients",
+    },
+    subhead:
+      "We analyze your business, pinpoint the real bottlenecks, and show you what's holding back your growth online.",
+    cta: "Analyze my business",
+    proof:
+      "For over 4 years we've helped businesses in Lisbon and the Algarve grow consistently online.",
+  },
+
+  realidade: {
+    headline: "The truth no one tells you.",
+    intro:
+      "Most businesses think the problem is a lack of clients. It isn't.",
+    bullets: [
+      "Misaligned messaging",
+      "A structure that doesn't convert",
+      "No clear direction",
+    ],
+    closingLine:
+      "And until that gets fixed, you keep losing opportunities every single day.",
+  },
+
+  paraQuem: {
+    headline: "Who it's for (and who it's not for).",
+    para: {
+      title: "This diagnosis is for those who:",
+      items: [
+        "Want to stop depending on referrals",
+        "Want a predictable flow of clients",
+        "Know their online presence can do more",
+      ],
+    },
+    naoPara: {
+      title: "It's not for those who:",
+      items: [
+        "Are looking for posts or quick fixes",
+        "Want shortcuts without structure",
+        "Aren't willing to fix what's broken",
+      ],
+    },
+    closingQuote:
+      "If you're not willing to look at your business honestly, this diagnosis won't make sense.",
+  },
+
+  oQueAcontece: {
+    headline: "What's going to happen.",
+    leadParagraphs: [
+      "It's not a generic call.",
+      "It's not a sales pitch.",
+    ],
+    bullets: [
+      "Review your current online presence",
+      "Identify where you're losing clients",
+      "Map out the main mistakes",
+      "Show you the most direct path to grow",
+    ],
+    closingQuote:
+      "And in most cases, the problems are simpler — and more critical — than they seem.",
+  },
+
+  comoFunciona: {
+    eyebrow: "How it works",
+    headline: "Three steps. Clear direction at the end.",
+    steps: [
+      {
+        number: "01",
+        title: "Business analysis",
+        body: "We understand what you do, how you communicate, and how you sell.",
+      },
+      {
+        number: "02",
+        title: "Bottleneck identification",
+        body: "We find out where your system is breaking down.",
+      },
+      {
+        number: "03",
+        title: "Clear direction",
+        body: "We show you exactly what needs to be fixed.",
+      },
+    ],
+  },
+
+  experiencia: {
+    headline: "We know where to look.",
+    paragraphs: [
+      "We've worked with businesses for over 4 years.",
+      "We've seen the same mistakes repeat themselves dozens of times.",
+    ],
+    closingQuote: "And often, what you think is the problem isn't.",
+  },
+
+  diferencial: {
+    headline: "You won't leave with more questions.",
+    body: [
+      "You'll leave with clarity.",
+      "Even if you don't move forward with us.",
+    ],
+  },
+
+  filtroFinal: {
+    headline: "We don't work with everyone — and that's by design.",
+    body: [
+      "This diagnosis is for businesses that want to grow with structure.",
+      "If you're just looking for more marketing, this isn't the path.",
+    ],
+  },
+
+  finalCta: {
+    headline: "Let's find out what's holding your business back.",
+    subhead:
+      "The longer you put it off, the more opportunities you keep losing.",
+    formCta: "Start diagnosis",
+    options: [
+      "I don't have leads",
+      "I have leads but don't convert",
+      "I want to scale",
+      "I don't know what's wrong",
+    ],
+  },
+};
+
+export function getDiagnosticoCopy(locale: Locale): DiagnosticoCopy {
+  return locale === "en" ? diagnosticoCopyEn : diagnosticoCopy;
+}

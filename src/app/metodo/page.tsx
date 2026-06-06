@@ -12,39 +12,45 @@ import { MetodoFazCerto } from "@/components/metodo/FazCerto";
 import { MetodoContraMercado } from "@/components/metodo/ContraMercado";
 import { Filtro } from "@/components/shared/Filtro";
 import { MetodoFinalCta } from "@/components/metodo/FinalCta";
-import { metodoCopy } from "@/data/metodo-copy";
+import { getMetodoCopy } from "@/data/metodo-copy";
+import { getLocale } from "@/lib/locale.server";
+import { getUICopy } from "@/data/ui-copy";
 
 const VARIANT = "metodo-lp";
 
-export const metadata: Metadata = {
-  title: "Método Fyze | Sistema de aquisição de clientes",
-  description:
-    "Pare de perder. Comece a converter. Escale com controlo. O sistema completo da Fyze para gerar clientes com consistência no digital.",
-  openGraph: {
-    title: "Método Fyze | Sistema de aquisição de clientes",
-    description:
-      "Pare de perder. Comece a converter. Escale com controlo.",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = getUICopy(await getLocale());
+  return {
+    title: ui.meta.metodo.title,
+    description: ui.meta.metodo.description,
+    openGraph: {
+      title: ui.meta.metodo.ogTitle,
+      description: ui.meta.metodo.ogDescription,
+      type: "website",
+    },
+  };
+}
 
-export default function MetodoPage() {
+export default async function MetodoPage() {
+  const locale = await getLocale();
+  const copy = getMetodoCopy(locale);
+
   return (
     <ContactModalProvider variant={VARIANT}>
       <main className="bg-zinc-950 min-h-screen" data-page="metodo-lp">
         <Navbar />
-        <MetodoHero copy={metodoCopy.hero} />
-        <MetodoVerdadeMercado copy={metodoCopy.verdadeMercado} />
-        <MetodoErroCustaCaro copy={metodoCopy.erroCustaCaro} />
-        <MetodoMetodoFyze copy={metodoCopy.metodoFyze} />
-        <MetodoOrdemImporta copy={metodoCopy.ordemImporta} />
-        <MetodoFazCerto copy={metodoCopy.fazCerto} />
-        <MetodoContraMercado copy={metodoCopy.contraMercado} />
+        <MetodoHero copy={copy.hero} />
+        <MetodoVerdadeMercado copy={copy.verdadeMercado} />
+        <MetodoErroCustaCaro copy={copy.erroCustaCaro} />
+        <MetodoMetodoFyze copy={copy.metodoFyze} />
+        <MetodoOrdemImporta copy={copy.ordemImporta} />
+        <MetodoFazCerto copy={copy.fazCerto} />
+        <MetodoContraMercado copy={copy.contraMercado} />
         <Filtro
-          headline={metodoCopy.filtro.headline}
-          body={metodoCopy.filtro.body}
+          headline={copy.filtro.headline}
+          body={copy.filtro.body}
         />
-        <MetodoFinalCta copy={metodoCopy.finalCta} />
+        <MetodoFinalCta copy={copy.finalCta} />
         <Footer />
         <WhatsAppButton variant={VARIANT} />
       </main>

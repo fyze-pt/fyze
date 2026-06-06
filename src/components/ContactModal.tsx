@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { submitToGoogleSheets } from "@/lib/googleSheets";
 import { trackEvent } from "@/lib/analytics";
+import { useLocale } from "@/components/LocaleProvider";
 
 type ContactModalContext = {
   open: (origin?: string) => void;
@@ -106,6 +107,7 @@ function ContactModal({
   origin?: string;
   variant?: string;
 }) {
+  const { ui } = useLocale();
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
@@ -137,12 +139,7 @@ function ContactModal({
     }
   };
 
-  const gargaloOptions = [
-    "Não tenho leads",
-    "Tenho leads mas não converto",
-    "Quero escalar",
-    "Preciso de estrutura",
-  ];
+  const gargaloOptions = ui.contactModal.gargaloOptions;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
@@ -163,7 +160,7 @@ function ContactModal({
       >
         <button
           onClick={close}
-          aria-label="Fechar"
+          aria-label={ui.contactModal.close}
           className="absolute top-4 right-4 sm:top-6 sm:right-6 text-zinc-400 hover:text-white transition-colors z-10 p-1"
         >
           <X className="w-6 h-6" />
@@ -172,25 +169,23 @@ function ContactModal({
         <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
           <div className="md:col-span-2 bg-zinc-950 p-6 sm:p-8 md:p-10 flex flex-col">
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight uppercase leading-[1] text-white mb-4">
-              Seu negócio não precisa de mais{" "}
+              {ui.contactModal.titleLead}{" "}
               <span className="text-fyze line-through opacity-60">
-                marketing
+                {ui.contactModal.strikeWord}
               </span>
               .
               <br />
               <span className="text-fyze">
-                Precisa de um sistema que gere clientes.
+                {ui.contactModal.titleHighlight}
               </span>
             </h2>
             <p className="text-zinc-300 text-sm font-medium leading-relaxed mb-8">
-              Preencha o formulário e vamos identificar onde você está a
-              perder dinheiro no digital. Em seguida, mostramos como corrigir
-              isso.
+              {ui.contactModal.intro}
             </p>
 
             <div className="mt-auto pt-6 border-t border-white/5">
               <p className="text-xs uppercase tracking-widest font-bold text-fyze mb-5">
-                Preferir falar diretamente?
+                {ui.contactModal.preferirFalar}
               </p>
               <div className="space-y-5">
                 <a
@@ -202,7 +197,7 @@ function ContactModal({
                   </span>
                   <div>
                     <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
-                      Telefone
+                      {ui.contactModal.telefone}
                     </p>
                     <p className="text-sm sm:text-base font-bold text-white group-hover:text-fyze transition-colors">
                       +351 915 709 951
@@ -219,7 +214,7 @@ function ContactModal({
                   </span>
                   <div>
                     <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
-                      Email
+                      {ui.contactModal.email}
                     </p>
                     <p className="text-sm sm:text-base font-bold text-white group-hover:text-fyze transition-colors break-all">
                       hello@fyze.pt
@@ -233,10 +228,10 @@ function ContactModal({
                   </span>
                   <div>
                     <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
-                      Localização
+                      {ui.contactModal.localizacao}
                     </p>
                     <p className="text-sm sm:text-base font-bold text-white">
-                      Lisboa &amp; Algarve
+                      {ui.contactModal.lisboaAlgarve}
                     </p>
                   </div>
                 </div>
@@ -252,45 +247,45 @@ function ContactModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">
-                  Nome
+                  {ui.contactModal.nome}
                 </label>
                 <input
                   type="text"
                   name="nome"
                   required
                   className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-fyze transition-colors"
-                  placeholder="O seu nome"
+                  placeholder={ui.contactModal.nomePh}
                 />
               </div>
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">
-                  Email
+                  {ui.contactModal.emailLabel}
                 </label>
                 <input
                   type="email"
                   name="email"
                   required
                   className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-fyze transition-colors"
-                  placeholder="O melhor email para contacto"
+                  placeholder={ui.contactModal.emailPh}
                 />
               </div>
             </div>
 
             <div>
               <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">
-                Telefone / WhatsApp
+                {ui.contactModal.telefoneWhats}
               </label>
               <input
                 type="tel"
                 name="telefone"
                 className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-fyze transition-colors"
-                placeholder="+351 ..."
+                placeholder={ui.contactModal.telefonePh}
               />
             </div>
 
             <div>
               <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">
-                Onde você sente que está travado?
+                {ui.contactModal.ondeTravado}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {gargaloOptions.map((opt) => (
@@ -313,13 +308,13 @@ function ContactModal({
 
             <div>
               <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-2">
-                Mensagem
+                {ui.contactModal.mensagem}
               </label>
               <textarea
                 name="mensagem"
                 rows={3}
                 className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-fyze transition-colors resize-none"
-                placeholder="Descreva rapidamente o seu negócio e o que sente que não está a funcionar"
+                placeholder={ui.contactModal.mensagemPh}
               />
             </div>
 
@@ -333,13 +328,13 @@ function ContactModal({
               )}
               {status === "success" && (
                 <>
-                  <Check className="w-5 h-5" /> Mensagem Enviada!
+                  <Check className="w-5 h-5" /> {ui.contactModal.enviada}
                 </>
               )}
-              {status === "error" && "Erro. Tente novamente."}
+              {status === "error" && ui.contactModal.erro}
               {status === "idle" && (
                 <>
-                  Quero identificar os meus gargalos
+                  {ui.contactModal.ctaIdle}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </>
               )}

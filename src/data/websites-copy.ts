@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/locale";
+
 export type WebsitesCopy = {
   hero: {
     headline: { lines: string[]; highlight: string };
@@ -144,3 +146,113 @@ export const websitesCopy: WebsitesCopy = {
     cta: "Quero ver meu site funcionando",
   },
 };
+
+export const websitesCopyEn: WebsitesCopy = {
+  hero: {
+    headline: {
+      lines: ["We build the first version of", "your site before you pay."],
+      highlight: "before you pay",
+    },
+    subhead:
+      "Fyze takes the risk: we design the complete structure of your site, built for conversion. If it makes sense for you, we move forward. If not, you pay nothing.",
+    bullets: [
+      "No upfront payment",
+      "No pretty, empty site",
+      "Fully focused on generating leads",
+    ],
+    cta: "Show me the first version of my site",
+  },
+
+  beliefBreaker: {
+    headline: "Most websites are useless.",
+    paragraphs: [
+      "They're beautiful, modern and completely useless at generating clients.",
+      "You pay a fortune and still get nothing back.",
+    ],
+    closingLine: "Fyze does it differently.",
+  },
+
+  reposicionamento: {
+    headline: "You don't need a new website.",
+    subhead: "You need a system that:",
+    pillars: [
+      { title: "Captures attention", body: "Clear positioning and a sharp message from the very first second." },
+      { title: "Builds trust", body: "A structure that proves authority before asking for any action." },
+      { title: "Drives the decision", body: "A path designed to turn a visitor into a client." },
+    ],
+    closingLine: "It doesn't start with design. It starts with strategy.",
+  },
+
+  mecanismo: {
+    eyebrow: "How it works",
+    headline: "We prove it before we charge you.",
+    subhead:
+      "While other agencies ask for payment to get started, we get started to prove ourselves.",
+    steps: [
+      {
+        number: "01",
+        title: "Diagnosis",
+        body: "We pinpoint where your business loses clients today and what's blocking your growth online.",
+      },
+      {
+        number: "02",
+        title: "Strategic structure",
+        body: "We build a site designed to convert — not to look pretty, but to deliver results.",
+      },
+      {
+        number: "03",
+        title: "First version delivered",
+        body: "You review it before any payment. You see the structure, understand the logic, see the potential.",
+      },
+      {
+        number: "04",
+        title: "Risk-free decision",
+        body: "If you like it, we move forward together. If you don't, you pay nothing. No fine print.",
+      },
+    ],
+  },
+
+  casesIntro: {
+    headline: "It's not about what we say.",
+    highlight: "It's about what happens next.",
+    subhead:
+      "Real results from companies that had the same problem: sites that generated no contact, reliance on referrals, visitors who never took action.",
+    closing:
+      "The pattern is clear: design isn't what changes the game. It's the structure that drives the decision.",
+  },
+
+  faq: {
+    headline: "Before you ask.",
+    items: [
+      {
+        q: "Is this really risk-free?",
+        a: "Yes. You only move forward if you see the value. Otherwise, you pay nothing. No hidden clauses, no forced lock-in.",
+      },
+      {
+        q: "Do you deliver the full site for free?",
+        a: "No. We deliver the first strategic version — enough for you to understand the potential and make an informed decision before any payment.",
+      },
+      {
+        q: "Is it right for every company?",
+        a: "No. It's only for those who want to turn their site into a real client-acquisition channel. If you just want a pretty site to be online, we're not the right fit.",
+      },
+    ],
+  },
+
+  ofertaFinal: {
+    lines: [
+      "Your current site is already costing you money.",
+      "Every visitor who lands and doesn't convert is a wasted opportunity.",
+      "Now you can change that without taking on any risk.",
+    ],
+    closing: {
+      line1: "Fyze goes first.",
+      line2: "You decide after.",
+    },
+    cta: "Show me my site working",
+  },
+};
+
+export function getWebsitesCopy(locale: Locale): WebsitesCopy {
+  return locale === "en" ? websitesCopyEn : websitesCopy;
+}

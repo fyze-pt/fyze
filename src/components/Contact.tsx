@@ -5,8 +5,10 @@ import { motion } from "motion/react";
 import { Mail, Phone, MapPin, ArrowRight, Loader2, Check } from "lucide-react";
 import { submitToGoogleSheets } from "@/lib/googleSheets";
 import { trackEvent } from "@/lib/analytics";
+import { useLocale } from "@/components/LocaleProvider";
 
 export function Contact({ variant }: { variant?: string } = {}) {
+  const { ui } = useLocale();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -45,11 +47,11 @@ export function Contact({ variant }: { variant?: string } = {}) {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.92] sm:leading-[0.9] mb-6 sm:mb-8">
-              Vamos <br />
-              <span className="text-fyze">falar?</span>
+              {ui.contact.titleLead} <br />
+              <span className="text-fyze">{ui.contact.titleHighlight}</span>
             </h2>
             <p className="text-base sm:text-xl text-zinc-400 mb-10 sm:mb-12 max-w-lg font-medium leading-relaxed">
-              Pronto para elevar a sua marca? Preencha o formulário ou contacte-nos diretamente.
+              {ui.contact.subtitle}
             </p>
 
             <div className="space-y-6 sm:space-y-10">
@@ -58,7 +60,7 @@ export function Contact({ variant }: { variant?: string } = {}) {
                   <Phone className="w-6 h-6 sm:w-8 sm:h-8 text-zinc-400 group-hover:text-zinc-950 transition-colors duration-300" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">Ligue-nos</p>
+                  <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">{ui.contact.ligueNos}</p>
                   <a href="tel:+351915709951" className="text-xl sm:text-3xl font-black hover:text-fyze transition-colors break-words">+351 915 709 951</a>
                 </div>
               </div>
@@ -68,7 +70,7 @@ export function Contact({ variant }: { variant?: string } = {}) {
                   <Mail className="w-6 h-6 sm:w-8 sm:h-8 text-zinc-400 group-hover:text-zinc-950 transition-colors duration-300" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">Email</p>
+                  <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">{ui.contact.email}</p>
                   <a href="mailto:hello@fyze.pt" className="text-xl sm:text-3xl font-black hover:text-fyze transition-colors break-all">hello@fyze.pt</a>
                 </div>
               </div>
@@ -78,8 +80,8 @@ export function Contact({ variant }: { variant?: string } = {}) {
                   <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-zinc-400 group-hover:text-zinc-950 transition-colors duration-300" />
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">Localização</p>
-                  <p className="text-xl sm:text-3xl font-black">Lisboa & Algarve</p>
+                  <p className="text-sm text-zinc-500 uppercase tracking-widest font-bold mb-2">{ui.contact.localizacao}</p>
+                  <p className="text-xl sm:text-3xl font-black">{ui.contact.lisboaAlgarve}</p>
                 </div>
               </div>
             </div>
@@ -94,43 +96,40 @@ export function Contact({ variant }: { variant?: string } = {}) {
           >
             <form ref={formRef} className="space-y-6 sm:space-y-8" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="name" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">Nome</label>
+                <label htmlFor="name" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">{ui.contact.nome}</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   required
                   className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors font-medium"
-                  placeholder="O seu nome"
+                  placeholder={ui.contact.nomePh}
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">Email</label>
+                <label htmlFor="email" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">{ui.contact.emailLabel}</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   required
                   className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors font-medium"
-                  placeholder="O seu email"
+                  placeholder={ui.contact.emailPh}
                 />
               </div>
 
               <div>
-                <label htmlFor="service" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">Serviço de Interesse</label>
+                <label htmlFor="service" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">{ui.contact.servicoInteresse}</label>
                 <div className="relative">
                   <select
                     id="service"
                     name="service"
                     className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors appearance-none font-medium"
                   >
-                    <option>Criação de Sites</option>
-                    <option>Tráfego Pago</option>
-                    <option>Gestão de Redes Sociais</option>
-                    <option>Criação de Conteúdo</option>
-                    <option>Foto & Vídeo / Drone</option>
-                    <option>Outro</option>
+                    {ui.contact.serviceOptions.map((opt) => (
+                      <option key={opt}>{opt}</option>
+                    ))}
                   </select>
                   <div className="absolute inset-y-0 right-5 sm:right-6 flex items-center pointer-events-none">
                     <svg className="w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -139,13 +138,13 @@ export function Contact({ variant }: { variant?: string } = {}) {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">Mensagem</label>
+                <label htmlFor="message" className="block text-sm font-bold uppercase tracking-widest text-zinc-400 mb-3">{ui.contact.mensagem}</label>
                 <textarea
                   id="message"
                   name="message"
                   rows={4}
                   className="w-full bg-zinc-950 border border-white/10 rounded-2xl px-5 sm:px-6 py-4 sm:py-5 text-white focus:outline-none focus:border-fyze transition-colors resize-none font-medium"
-                  placeholder="Como podemos ajudar?"
+                  placeholder={ui.contact.mensagemPh}
                 ></textarea>
               </div>
 
@@ -155,11 +154,11 @@ export function Contact({ variant }: { variant?: string } = {}) {
                 className="w-full group flex items-center justify-center gap-3 bg-fyze text-zinc-950 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl text-sm sm:text-base font-black uppercase tracking-[0.14em] sm:tracking-widest transition-all hover:bg-fyze/90 hover:shadow-[0_0_40px_rgba(0,240,255,0.4)] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {status === "loading" && <Loader2 className="w-6 h-6 animate-spin" />}
-                {status === "success" && <><Check className="w-6 h-6" /> Mensagem Enviada!</>}
-                {status === "error" && "Erro ao enviar. Tente novamente."}
+                {status === "success" && <><Check className="w-6 h-6" /> {ui.contact.enviada}</>}
+                {status === "error" && ui.contact.erro}
                 {status === "idle" && (
                   <>
-                    Enviar Mensagem
+                    {ui.contact.ctaIdle}
                     <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                   </>
                 )}

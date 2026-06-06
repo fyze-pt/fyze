@@ -6,6 +6,7 @@ import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { submitToGoogleSheets } from "@/lib/googleSheets";
 import { trackEvent } from "@/lib/analytics";
 import type { DiagnosticoCopy } from "@/data/diagnostico-copy";
+import { useLocale } from "@/components/LocaleProvider";
 
 const VARIANT = "diagnostico-lp";
 
@@ -14,6 +15,7 @@ export function DiagnosticoForm({
 }: {
   copy: DiagnosticoCopy["finalCta"];
 }) {
+  const { ui } = useLocale();
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
@@ -85,10 +87,10 @@ export function DiagnosticoForm({
                 <Check className="w-8 h-8 text-fyze" />
               </div>
               <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white mb-3">
-                Recebemos.
+                {ui.diagnosticoForm.recebemos}
               </h3>
               <p className="text-base sm:text-lg text-zinc-300 font-medium leading-snug max-w-md mx-auto">
-                Vamos analisar o seu negócio e voltar dentro de 24h com a primeira leitura.
+                {ui.diagnosticoForm.recebemosSub}
               </p>
             </div>
           ) : (
@@ -96,46 +98,46 @@ export function DiagnosticoForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                    Nome
+                    {ui.diagnosticoForm.nome}
                   </label>
                   <input
                     type="text"
                     name="nome"
                     required
                     className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors"
-                    placeholder="O seu nome"
+                    placeholder={ui.diagnosticoForm.nomePh}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                    Email
+                    {ui.diagnosticoForm.emailLabel}
                   </label>
                   <input
                     type="email"
                     name="email"
                     required
                     className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors"
-                    placeholder="o.seu@email.com"
+                    placeholder={ui.diagnosticoForm.emailPh}
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                  Negócio / Área de atuação
+                  {ui.diagnosticoForm.negocio}
                 </label>
                 <input
                   type="text"
                   name="negocio"
                   required
                   className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors"
-                  placeholder="Ex: Restaurante, Clínica, E-commerce..."
+                  placeholder={ui.diagnosticoForm.negocioPh}
                 />
               </div>
 
               <div className="space-y-3">
                 <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                  Maior dificuldade hoje
+                  {ui.diagnosticoForm.maiorDificuldade}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {copy.options.map((option) => (
@@ -160,13 +162,13 @@ export function DiagnosticoForm({
 
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                  Mensagem
+                  {ui.diagnosticoForm.mensagem}
                 </label>
                 <textarea
                   name="mensagem"
                   rows={4}
                   className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-fyze transition-colors resize-none"
-                  placeholder="Descreva o seu negócio e o que sente que não está a funcionar."
+                  placeholder={ui.diagnosticoForm.mensagemPh}
                 />
               </div>
 
@@ -178,7 +180,7 @@ export function DiagnosticoForm({
                 {status === "loading" ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : status === "error" ? (
-                  "Erro. Tente novamente."
+                  ui.diagnosticoForm.erro
                 ) : (
                   <>
                     {copy.formCta}

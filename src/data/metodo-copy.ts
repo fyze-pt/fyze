@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/locale";
+
 export type MetodoCopy = {
   hero: {
     headline: { lines: string[]; highlight: string };
@@ -204,3 +206,154 @@ export const metodoCopy: MetodoCopy = {
     cta: "Analisar o meu negócio",
   },
 };
+
+export const metodoCopyEn: MetodoCopy = {
+  hero: {
+    headline: {
+      lines: [
+        "The problem isn't your marketing.",
+        "It's the lack of structure behind it.",
+      ],
+      highlight: "structure",
+    },
+    subhead:
+      "While most businesses try to grow with scattered tactics, Fyze builds a complete system to win clients consistently.",
+    cta: "Analyze my business",
+  },
+
+  verdadeMercado: {
+    headline: "The truth about the market.",
+    leadParagraphs: [
+      "Most companies are doing marketing.",
+      "But few are growing consistently.",
+    ],
+    bullets: [
+      "They create content with no direction",
+      "They invest in ads with no foundation",
+      "They change strategy constantly",
+    ],
+    quote: "Digital doesn't work.",
+    closingLines: [
+      "The problem isn't digital.",
+      "It's the way it's being used.",
+    ],
+  },
+
+  erroCustaCaro: {
+    headline: "The mistake that costs you dearly.",
+    sequence: ["More traffic", "More posts", "More investment"],
+    body: [
+      "Most try to scale before they're ready.",
+      "But on a weak foundation, that only multiplies the waste.",
+    ],
+    quote: "Growth without structure doesn't scale. It amplifies the problem.",
+  },
+
+  metodoFyze: {
+    eyebrow: "The Fyze Method",
+    headline: [
+      "Stop losing.",
+      "Start converting.",
+      "Scale with control.",
+    ],
+    intro: [
+      "It's not about doing more.",
+      "It's about doing it right — in the right order.",
+    ],
+    pillars: [
+      {
+        number: "01",
+        tag: "Leaks",
+        title: "Stop losing",
+        kicker:
+          "Where your business is losing clients every single day — without realizing it.",
+        lead: "Before you can grow, you have to stop losing.",
+        items: [
+          "We analyze your entire digital presence",
+          "We pinpoint the leak points",
+          "We fix the messaging",
+          "We refine the positioning",
+        ],
+        conclusion: "This is where you stop wasting opportunities.",
+      },
+      {
+        number: "02",
+        tag: "Conversion",
+        title: "Start converting",
+        kicker:
+          "How to turn attention into a client — not just another follower.",
+        lead: "Once it's fixed, it's time to structure it.",
+        items: [
+          "We build presence with authority",
+          "We create content with intent",
+          "We align the client experience",
+          "We map the path to action",
+        ],
+        conclusion: "This is where your digital stops being a showcase and starts selling.",
+      },
+      {
+        number: "03",
+        tag: "Scale",
+        title: "Scale with control",
+        kicker: "How to turn it into a predictable flow of clients.",
+        lead: "Now it actually makes sense to accelerate.",
+        items: [
+          "Traffic with strategy",
+          "The right audience",
+          "An aligned message",
+          "Growth with consistency",
+        ],
+        conclusion: "This is where you gain control.",
+      },
+    ],
+  },
+
+  ordemImporta: {
+    headline: "Why the order matters.",
+    bullets: [
+      "Attracts the wrong people",
+      "Doesn't convert",
+      "Blames the marketing",
+    ],
+    closingLines: [
+      "And tries to fix it with more effort,",
+      "when the problem is structure.",
+    ],
+  },
+
+  fazCerto: {
+    headline: "What happens when you do it right.",
+    bullets: [
+      "The right client starts coming in",
+      "The messaging makes sense",
+      "Digital starts working in your favor",
+      "Growth stops being random",
+    ],
+    quote: "You move out of improvising and into control.",
+  },
+
+  contraMercado: {
+    headline: "Against the market.",
+    venders: ["posts", "campaigns", "social media management"],
+    constroi: "a client acquisition system",
+    closingLine: "And that changes everything.",
+  },
+
+  filtro: {
+    headline: "This method isn't for everyone.",
+    body: [
+      "It's not for those looking for quick fixes or wanting to test more marketing.",
+      "It's for those who want structured growth, predictability, and control.",
+    ],
+  },
+
+  finalCta: {
+    headline: "If your business isn't growing the way it should, something is failing.",
+    subhead: "The difference is that now you know where to start.",
+    cta: "Analyze my business",
+  },
+};
+
+export function getMetodoCopy(locale: Locale): MetodoCopy {
+  return locale === "en" ? metodoCopyEn : metodoCopy;
+}

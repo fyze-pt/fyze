@@ -12,18 +12,22 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
-
-const navLinks = [
-  { name: "Método", href: "/metodo" },
-  { name: "Cases", href: "/#showcase" },
-  { name: "Sobre", href: "/sobre" },
-];
+import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { useLocale } from "@/components/LocaleProvider";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const logoSrc = "/fyze.svg";
+  const { ui } = useLocale();
+  const whatsappUrl = buildWhatsappUrl(ui.whatsapp.message);
+
+  const navLinks = [
+    { name: ui.nav.metodo, href: "/metodo" },
+    { name: ui.nav.cases, href: "/#showcase" },
+    { name: ui.nav.sobre, href: "/sobre" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,19 +79,21 @@ export function Navbar() {
                   {link.name}
                 </a>
               ))}
+              <LanguageToggle />
               <Link
                 href="/diagnostico"
                 className="bg-fyze text-zinc-950 hover:bg-fyze/90 px-8 py-3.5 rounded-full text-sm font-black uppercase tracking-[0.2em] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]"
               >
-                Analisar o meu negócio
+                {ui.nav.ctaAnalisar}
               </Link>
             </div>
           </div>
 
-          <div className="md:hidden shrink-0">
+          <div className="md:hidden shrink-0 flex items-center gap-4">
+            <LanguageToggle />
             <button
               onClick={() => setIsOpen(true)}
-              aria-label="Abrir menu"
+              aria-label={ui.nav.openMenu}
               className="text-zinc-300 hover:text-white p-2 -mr-2 transition-colors"
             >
               <Menu size={28} />
@@ -107,7 +113,7 @@ export function Navbar() {
             className="md:hidden fixed inset-0 bg-zinc-950 z-[60] flex flex-col overflow-y-auto"
             role="dialog"
             aria-modal="true"
-            aria-label="Menu de navegação"
+            aria-label={ui.nav.openMenu}
           >
             <div className="flex items-center justify-between px-4 sm:px-6 pt-4 sm:pt-6 pb-2">
               <Link href="/" onClick={closeMenu} className="flex items-center gap-2">
@@ -115,7 +121,7 @@ export function Navbar() {
               </Link>
               <button
                 onClick={closeMenu}
-                aria-label="Fechar menu"
+                aria-label={ui.nav.closeMenu}
                 className="text-zinc-300 hover:text-white p-2 -mr-2 transition-colors"
               >
                 <X size={28} />
@@ -154,7 +160,7 @@ export function Navbar() {
                   onClick={closeMenu}
                   className="group flex items-center justify-center gap-3 w-full bg-fyze text-zinc-950 py-5 rounded-2xl text-sm font-black uppercase tracking-[0.16em] hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(0,240,255,0.35)] transition-all"
                 >
-                  Analisar o meu negócio
+                  {ui.nav.ctaAnalisar}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
@@ -167,7 +173,7 @@ export function Navbar() {
               className="px-4 sm:px-6 pb-8 pt-4 border-t border-white/5 space-y-5"
             >
               <a
-                href={WHATSAPP_URL}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeMenu}
@@ -176,7 +182,7 @@ export function Navbar() {
                 <span className="flex w-9 h-9 rounded-full bg-fyze/15 border border-fyze/30 items-center justify-center">
                   <MessageCircle className="w-4 h-4 text-fyze" />
                 </span>
-                Falar com especialista
+                {ui.nav.falarEspecialista}
               </a>
 
               <a
@@ -194,7 +200,7 @@ export function Navbar() {
                 <span className="flex w-9 h-9 rounded-full bg-zinc-900 border border-white/10 items-center justify-center">
                   <MapPin className="w-4 h-4 text-zinc-400" />
                 </span>
-                Lisboa · Algarve
+                {ui.nav.location}
               </div>
 
               <div className="pt-4 flex items-center justify-between text-xs text-zinc-500">
@@ -203,7 +209,7 @@ export function Navbar() {
                   onClick={closeMenu}
                   className="hover:text-zinc-300 transition-colors"
                 >
-                  Política de Privacidade
+                  {ui.nav.privacy}
                 </Link>
                 <span>© {new Date().getFullYear()} Fyze Agency</span>
               </div>

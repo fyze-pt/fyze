@@ -4,13 +4,16 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { cases, type CaseStudy } from "@/data/cases";
+import { getCases, type CaseStudy } from "@/data/cases";
 import { trackEvent } from "@/lib/analytics";
+import { useLocale } from "@/components/LocaleProvider";
 
 const AUTO_SCROLL_PX_PER_SEC = 60; // velocidade do auto-scroll
 const PAUSE_AFTER_INTERACTION_MS = 5000;
 
 export function Showcase() {
+  const { ui, locale } = useLocale();
+  const cases = getCases(locale);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const pausedRef = useRef(false);
   const draggingRef = useRef(false);
@@ -118,7 +121,7 @@ export function Showcase() {
             CASES
           </motion.h2>
           <p className="text-zinc-500 text-xs sm:text-sm font-medium mt-3 uppercase tracking-widest">
-            Arraste ou use as setas para ver mais
+            {ui.showcase.hint}
           </p>
         </div>
 
@@ -131,7 +134,7 @@ export function Showcase() {
           <button
             type="button"
             onClick={() => scrollByCard("left")}
-            aria-label="Caso anterior"
+            aria-label={ui.showcase.prevAria}
             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-fyze hover:text-zinc-950 hover:border-fyze transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -139,7 +142,7 @@ export function Showcase() {
           <button
             type="button"
             onClick={() => scrollByCard("right")}
-            aria-label="Próximo caso"
+            aria-label={ui.showcase.nextAria}
             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-fyze hover:text-zinc-950 hover:border-fyze transition-colors"
           >
             <ArrowRight className="w-5 h-5" />

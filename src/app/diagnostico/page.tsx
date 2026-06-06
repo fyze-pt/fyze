@@ -12,39 +12,45 @@ import { DiagnosticoExperiencia } from "@/components/diagnostico/Experiencia";
 import { DiagnosticoDiferencial } from "@/components/diagnostico/Diferencial";
 import { Filtro } from "@/components/shared/Filtro";
 import { DiagnosticoForm } from "@/components/diagnostico/Form";
-import { diagnosticoCopy } from "@/data/diagnostico-copy";
+import { getDiagnosticoCopy } from "@/data/diagnostico-copy";
+import { getLocale } from "@/lib/locale.server";
+import { getUICopy } from "@/data/ui-copy";
 
 const VARIANT = "diagnostico-lp";
 
-export const metadata: Metadata = {
-  title: "Diagnóstico do seu negócio | Fyze",
-  description:
-    "Identifique onde o seu negócio está a perder clientes no digital. Análise direta, sem call comercial — você sai com clareza, mesmo que não avance connosco.",
-  openGraph: {
-    title: "Diagnóstico do seu negócio | Fyze",
-    description:
-      "Identifique onde o seu negócio está a perder clientes no digital.",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = getUICopy(await getLocale());
+  return {
+    title: ui.meta.diagnostico.title,
+    description: ui.meta.diagnostico.description,
+    openGraph: {
+      title: ui.meta.diagnostico.ogTitle,
+      description: ui.meta.diagnostico.ogDescription,
+      type: "website",
+    },
+  };
+}
 
-export default function DiagnosticoPage() {
+export default async function DiagnosticoPage() {
+  const locale = await getLocale();
+  const copy = getDiagnosticoCopy(locale);
+
   return (
     <ContactModalProvider variant={VARIANT}>
       <main className="bg-zinc-950 min-h-screen" data-page="diagnostico-lp">
         <Navbar />
-        <DiagnosticoHero copy={diagnosticoCopy.hero} />
-        <DiagnosticoRealidade copy={diagnosticoCopy.realidade} />
-        <DiagnosticoParaQuem copy={diagnosticoCopy.paraQuem} />
-        <DiagnosticoOqueAcontece copy={diagnosticoCopy.oQueAcontece} />
-        <DiagnosticoComoFunciona copy={diagnosticoCopy.comoFunciona} />
-        <DiagnosticoExperiencia copy={diagnosticoCopy.experiencia} />
-        <DiagnosticoDiferencial copy={diagnosticoCopy.diferencial} />
+        <DiagnosticoHero copy={copy.hero} />
+        <DiagnosticoRealidade copy={copy.realidade} />
+        <DiagnosticoParaQuem copy={copy.paraQuem} />
+        <DiagnosticoOqueAcontece copy={copy.oQueAcontece} />
+        <DiagnosticoComoFunciona copy={copy.comoFunciona} />
+        <DiagnosticoExperiencia copy={copy.experiencia} />
+        <DiagnosticoDiferencial copy={copy.diferencial} />
         <Filtro
-          headline={diagnosticoCopy.filtroFinal.headline}
-          body={diagnosticoCopy.filtroFinal.body}
+          headline={copy.filtroFinal.headline}
+          body={copy.filtroFinal.body}
         />
-        <DiagnosticoForm copy={diagnosticoCopy.finalCta} />
+        <DiagnosticoForm copy={copy.finalCta} />
         <Footer />
         <WhatsAppButton variant={VARIANT} />
       </main>

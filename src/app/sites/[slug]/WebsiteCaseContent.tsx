@@ -8,11 +8,13 @@ import type { WebsiteCase } from "@/data/websites-cases";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { useLocale } from "@/components/LocaleProvider";
 import { trackEvent } from "@/lib/analytics";
 
 const VARIANT = "site-case";
 
 export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
+  const { ui } = useLocale();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [caseData.slug]);
@@ -36,7 +38,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
               className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors font-bold text-xs sm:text-sm uppercase tracking-widest"
             >
               <ArrowLeft className="w-4 h-4" />
-              Criação de websites
+              {ui.websiteCase.backToWebsites}
             </Link>
           </motion.div>
 
@@ -79,7 +81,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
                   }
                   className="group inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-zinc-900 border border-fyze/40 text-white px-6 sm:px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest transition-all hover:bg-fyze hover:text-zinc-950 hover:border-fyze hover:shadow-[0_0_40px_rgba(0,240,255,0.35)]"
                 >
-                  Visitar site
+                  {ui.websiteCase.visitSite}
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </motion.div>
@@ -110,7 +112,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
             transition={{ duration: 0.6 }}
           >
             <p className="text-fyze text-xs font-black uppercase tracking-widest mb-4">
-              O desafio
+              {ui.websiteCase.challenge}
             </p>
             <div className="space-y-4">
               {caseData.challenge.map((p, i) => (
@@ -131,7 +133,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <p className="text-fyze text-xs font-black uppercase tracking-widest mb-4">
-              A solução
+              {ui.websiteCase.solution}
             </p>
             <ul className="space-y-3">
               {caseData.solution.map((item) => (
@@ -152,7 +154,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
         <section className="py-16 sm:py-24 bg-zinc-900 border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-fyze text-xs font-black uppercase tracking-widest mb-8 text-center">
-              Galeria
+              {ui.websiteCase.gallery}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-start">
               {caseData.gallery.slice(1).map((src, i) => (
@@ -182,7 +184,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
           <div className="bg-zinc-900/60 border border-fyze/30 rounded-3xl p-8 sm:p-10">
             <p className="text-fyze text-xs font-black uppercase tracking-widest mb-5 flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5" />
-              Destaques
+              {ui.websiteCase.highlights}
             </p>
             <ul className="space-y-3">
               {caseData.highlights.map((h) => (
@@ -204,10 +206,10 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
 
         <div className="relative z-10 max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter uppercase leading-[0.95] text-white mb-6 text-balance">
-            Quer um site assim para o seu negócio?
+            {ui.websiteCase.finalTitle}
           </h2>
           <p className="text-lg sm:text-xl text-zinc-300 font-medium leading-snug mb-10 max-w-2xl mx-auto text-pretty">
-            Identificamos onde o seu negócio está a perder oportunidades e construímos a estrutura certa para gerar clientes.
+            {ui.websiteCase.finalSubtitle}
           </p>
           <Link
             href="/diagnostico"
@@ -220,7 +222,7 @@ export function WebsiteCaseContent({ caseData }: { caseData: WebsiteCase }) {
             }
             className="group inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-fyze text-zinc-950 px-8 sm:px-12 py-5 sm:py-6 rounded-full text-sm md:text-base font-black uppercase tracking-[0.16em] sm:tracking-widest transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(0,240,255,0.5)]"
           >
-            Analisar o meu negócio
+            {ui.websiteCase.finalCta}
             <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>

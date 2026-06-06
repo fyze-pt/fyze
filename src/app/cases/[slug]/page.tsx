@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { cases } from "@/data/cases";
+import { getCase } from "@/data/cases";
+import { getLocale } from "@/lib/locale.server";
+import { getUICopy } from "@/data/ui-copy";
 import { CaseStudyContent } from "./CaseStudyContent";
 
-export function generateStaticParams() {
-  return cases.map((c) => ({ slug: c.slug }));
-}
+// Rendered per-request so the locale cookie is always honored.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -13,10 +14,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const caseData = cases.find((c) => c.slug === slug);
-  if (!caseData) return { title: "Case não encontrado | Fyze" };
+  const locale = await getLocale();
+  const ui = getUICopy(locale);
+  const caseData = getCase(slug, locale);
+  if (!caseData) return { title: ui.meta.caseNotFound };
   return {
-    title: `${caseData.client} | Cases Fyze`,
+    title: `${caseData.client} | ${ui.meta.casesSuffix}`,
     description: caseData.description,
   };
 }
@@ -27,7 +30,7 @@ export default async function CasePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const caseData = cases.find((c) => c.slug === slug);
+  const caseData = getCase(slug, await getLocale());
   if (!caseData) notFound();
   return <CaseStudyContent caseData={caseData} />;
 }

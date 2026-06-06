@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { useLocale } from "@/components/LocaleProvider";
 
 const SHOW_DELAY_MS = 1500;
 
 export function WhatsAppButton({ variant }: { variant?: string } = {}) {
   const [showBubble, setShowBubble] = useState(false);
+  const { ui } = useLocale();
+  const whatsappUrl = buildWhatsappUrl(ui.whatsapp.message);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -32,7 +35,7 @@ export function WhatsAppButton({ variant }: { variant?: string } = {}) {
       <AnimatePresence>
         {showBubble && (
           <motion.a
-            href={WHATSAPP_URL}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => onWhatsAppClick("bubble")}
@@ -43,12 +46,12 @@ export function WhatsAppButton({ variant }: { variant?: string } = {}) {
             className="relative bg-zinc-900 border border-white/10 text-white pl-4 pr-10 py-3 rounded-2xl shadow-2xl max-w-[240px] hover:border-fyze/50 transition-colors"
           >
             <p className="text-sm font-bold leading-snug">
-              Falar com especialista
+              {ui.whatsapp.bubble}
             </p>
             <button
               type="button"
               onClick={dismiss}
-              aria-label="Fechar"
+              aria-label={ui.whatsapp.closeAria}
               className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
             >
               <X size={14} />
@@ -59,7 +62,7 @@ export function WhatsAppButton({ variant }: { variant?: string } = {}) {
       </AnimatePresence>
 
       <motion.a
-        href={WHATSAPP_URL}
+        href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => onWhatsAppClick("button")}
@@ -68,7 +71,7 @@ export function WhatsAppButton({ variant }: { variant?: string } = {}) {
         transition={{ delay: 1, type: "spring", stiffness: 200, damping: 20 }}
         className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300"
         style={{ backgroundColor: "#D4FF00" }}
-        aria-label="Falar com especialista no WhatsApp"
+        aria-label={ui.whatsapp.fabAria}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

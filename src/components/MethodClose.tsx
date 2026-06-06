@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import type { HomeCopy } from "@/data/home-copy";
 import { trackEvent } from "@/lib/analytics";
+import { useLocale } from "@/components/LocaleProvider";
 
 export function MethodClose({
   copy,
@@ -13,6 +14,7 @@ export function MethodClose({
   copy: HomeCopy["methodClose"];
   variant?: string;
 }) {
+  const { ui } = useLocale();
   return (
     <section className="relative pt-8 sm:pt-12 pb-20 sm:pb-28 bg-zinc-950 overflow-hidden">
       <div
@@ -48,8 +50,8 @@ export function MethodClose({
           transition={{ duration: 0.5, delay: 0.45 }}
           className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-white leading-tight mb-12 sm:mb-14"
         >
-          {copy.punch.split(/(os três)/i).map((part, i) =>
-            /os três/i.test(part) ? (
+          {copy.punch.split(/(os três|all three)/i).map((part, i) =>
+            /os três|all three/i.test(part) ? (
               <span key={i} className="text-fyze">
                 {part}
               </span>
@@ -76,7 +78,7 @@ export function MethodClose({
             }
             className="group inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-fyze text-zinc-950 px-8 sm:px-12 py-5 sm:py-6 rounded-full text-sm md:text-base font-black uppercase tracking-[0.16em] sm:tracking-widest transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(0,240,255,0.45)]"
           >
-            Analisar o meu negócio
+            {ui.nav.ctaAnalisar}
             <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
           </Link>
         </motion.div>

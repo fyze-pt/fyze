@@ -1,3 +1,6 @@
+import type { Locale } from "@/lib/locale";
+import { websitesCasesEn } from "@/data/websites-cases.en";
+
 export type WebsiteCase = {
   slug: string;
   client: string;
@@ -100,3 +103,30 @@ export const websitesCases: WebsiteCase[] = [
     ],
   },
 ];
+
+/** Merges the English text overlay (websites-cases.en.ts) onto a base case. */
+function localizeWebsiteCase(base: WebsiteCase, locale: Locale): WebsiteCase {
+  if (locale !== "en") return base;
+  const t = websitesCasesEn[base.slug];
+  if (!t) return base;
+  return {
+    ...base,
+    scope: t.scope ?? base.scope,
+    shortDescription: t.shortDescription ?? base.shortDescription,
+    challenge: t.challenge ?? base.challenge,
+    solution: t.solution ?? base.solution,
+    highlights: t.highlights ?? base.highlights,
+  };
+}
+
+export function getWebsiteCases(locale: Locale): WebsiteCase[] {
+  return websitesCases.map((c) => localizeWebsiteCase(c, locale));
+}
+
+export function getWebsiteCase(
+  slug: string,
+  locale: Locale,
+): WebsiteCase | undefined {
+  const base = websitesCases.find((c) => c.slug === slug);
+  return base ? localizeWebsiteCase(base, locale) : undefined;
+}
